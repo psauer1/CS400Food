@@ -1,12 +1,49 @@
-Final Project TODO
+TODO:
+- Incomplete
+/ In progress
++ Completed
+(xx) Points
 
-Key
-+: Completed
-IP: In progress
--: Incomplete
+README File (5)
+- Team members [name, email, x-team]
 
-Milestone #2
-+: GUI with javafx
+BPTree Implementation (10)
+- Status:
 
-Milestone #3
--: BPTree
+Render Initial GUI (20)
+- Instructions for usage/obvious usage (4)
+- Visibile food list (2)
+- Add food (1)
+- Load food (2)
+- Save food (1)
+- Visible meal list (1)
+- Add/remove/clear to meal (1)
+- Analyze meal (1)
+- Aesthetics (4)
+
+GUI Functionality (45)
+- File:
+	- Load (6)
+	- Save (4)
+- Meal:
+	- Select from filtered food list (4)
+	- Add to meal (4)
+	- Clear meal (2)
+- Anaylsis:
+	- View summary (5)
+	- Easy to read (3)
+	- Consistently ordered (2)
+- Food Query
+	- List of rules (2)
+	- Add rule (2)
+	- Remove rule (1)
+	- Apply query (5)
+	- Valid list from search (5)
+
+User Input (10)
+- Handles negative nutrition inputs (3)
+- Handles aplanumeric nutrition values (3)
+- Handles food list to meal list (1)
+- Handles an empty meal list (1)
+- Nutrition input order is clear (1)
+- Other error handling (1) 
