@@ -242,6 +242,14 @@ public class BPTree<K extends Comparable<K>, V> implements BPTreeADT<K, V> {
          * @see BPTree.Node#insert(java.lang.Comparable, java.lang.Object)
          */
         void insert(K key, V value) {
+		for (int i = 0; i < keys.size(); i++) {
+				if (keys.get(i).compareTo(key) >= 0) {
+					
+				}
+			}
+			if (isOverflow()) {
+				split();
+			}
             // TODO : Complete
         	for (int i=0; i<keys.size(); i++) {
         		K curr = keys.get(i);
@@ -256,14 +264,23 @@ public class BPTree<K extends Comparable<K>, V> implements BPTreeADT<K, V> {
          * (non-Javadoc)
          * @see BPTree.Node#split()
          */
-        Node split() {
-            // TODO : Complete
-        	int splitIndex = (keys.size())/2;
-        	K splitKey = keys.get(splitIndex);
-        	Node sibling = new InternalNode();
-        	sibling.keys.add(splitKey);
-            return sibling;
-        }
+		Node split() {
+			int splitIndex = (keys.size()) / 2;
+			K splitKey = keys.get(splitIndex);
+
+			// right split
+			InternalNode sibling = new InternalNode();
+			sibling.keys = keys.subList(splitIndex, keys.size());
+			sibling.children = children.subList(splitIndex, children.size());
+
+			// fix this node
+			children = children.subList(0, splitIndex);
+			keys = keys.subList(splitIndex, keys.size());
+
+			// promote splitKey to parent node
+
+			return sibling;
+		}
         
         /**
          * (non-Javadoc)
@@ -331,20 +348,15 @@ public class BPTree<K extends Comparable<K>, V> implements BPTreeADT<K, V> {
          * @see BPTree.Node#insert(Comparable, Object)
          */
         void insert(K key, V value) {
-		
-            if (!isOverflow()) {
 				for (int i = 0; i < keys.size(); i++) {
-					if (key.compareTo(keys.get(i)) < 0) {
-						keys.add(i, key);
-						values.add(i, value);
-						return;
-					}
+				if (keys.get(i).compareTo(key) >= 0) {
+					keys.add(i, key);
+					values.add(i, value);
 				}
-				keys.add(key);
-				values.add(value);
-	     } else {
-		split();
-  	     }
+			}
+			if (isOverflow()) {
+				split();
+			}
         }
         
 
