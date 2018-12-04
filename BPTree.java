@@ -312,7 +312,7 @@ public class BPTree<K extends Comparable<K>, V> implements BPTreeADT<K, V> {
          * @see BPTree.Node#getFirstLeafKey()
          */
         K getFirstLeafKey() {
-        	return keys.get(0);
+            return keys.get(0);
         }
         
         /**
@@ -331,16 +331,21 @@ public class BPTree<K extends Comparable<K>, V> implements BPTreeADT<K, V> {
          * @see BPTree.Node#insert(Comparable, Object)
          */
         void insert(K key, V value) {
-            for (int i = 0; i < keys.size(); i++) {
-            	if (key.compareTo(keys.get(i)) == 0) {
-            		values.add(value);
-            	} else if (key.compareTo(keys.get(i)) < 0) {
-            		keys.add(i, key);
-            	}
-            }
-        }
-        
-
+			
+	    if (!isOverflow()) {
+	    	for (int i = 0; i < keys.size(); i++) {
+			if (key.compareTo(keys.get(i)) < 0) {
+			    keys.add(i, key);
+			    values.add(i, value);
+	 		    return;
+			}
+		}
+		keys.add(key);
+		values.add(value);
+		} else {
+  	   	    split();
+		}
+    	}
         
         /**
          * (non-Javadoc)
