@@ -331,15 +331,20 @@ public class BPTree<K extends Comparable<K>, V> implements BPTreeADT<K, V> {
          * @see BPTree.Node#insert(Comparable, Object)
          */
         void insert(K key, V value) {
-            for (int i = 0; i < keys.size(); i++) {
-            		if (keys.get(i).compareTo(key) >= 0) {
-            			keys.add(i, key);
-            			values.add(i, value);
-            		}
-            }
-            if (isOverflow()) {
-            		split();
-            }
+		
+            if (!isOverflow()) {
+				for (int i = 0; i < keys.size(); i++) {
+					if (key.compareTo(keys.get(i)) < 0) {
+						keys.add(i, key);
+						values.add(i, value);
+						return;
+					}
+				}
+				keys.add(key);
+				values.add(value);
+	     } else {
+		split();
+  	     }
         }
         
 
