@@ -10,6 +10,9 @@ import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
@@ -164,7 +167,7 @@ public class Main extends Application {
         mealItems.getChildren().add(mealItemsLabel);
         
         ListView<String> foodList = new ListView<String>();	// creates list for the food
-        ObservableList<String> items = FXCollections.observableArrayList (display.get().getNames());	// displays names from foodList
+        ObservableList<String> items = FXCollections.observableArrayList (all.getNames());	// displays names from foodList
         foodList.setItems(items);	// set items into the food list
         foodList.prefWidthProperty().bind(foodItems.widthProperty().multiply(1.0));
         
@@ -286,14 +289,39 @@ public class Main extends Application {
         primaryStage.setScene(scene);	// set the scene on the primary stage
         primaryStage.show();	// show primary stage
 
+
+        sortFood.setOnMouseClicked((event) -> {
+            FoodList subList = all;
+            if(nameBox.isSelected()) {
+                subList = new FoodList();
+                subList.insertFood(all.getFood(lowname.getText()));
+            }
+            if(caloriesBox.isSelected()) {
+                subList= subList.getFoodRange("cal",Integer.valueOf(lowCalories.getText()),Integer.valueOf(highCalories.getText()));
+            }
+            if(carbsBox.isSelected()) {
+                subList= subList.getFoodRange("carbs",Integer.valueOf(lowcarbs.getText()),Integer.valueOf(highcarbs.getText()));
+            }
+            if(fiberBox.isSelected()) {
+                subList= subList.getFoodRange("fiber",Integer.valueOf(lowfiber.getText()),Integer.valueOf(highfiber.getText()));
+            }
+            if(fatsBox.isSelected()) {
+                subList= subList.getFoodRange("fat",Integer.valueOf(lowfats.getText()),Integer.valueOf(highfats.getText()));
+            }
+            if(proteinBox.isSelected()) {
+                subList= subList.getFoodRange("protein",Integer.valueOf(lowprotein.getText()),Integer.valueOf(highprotein.getText()));
+            }
+
+            foodList.setItems(FXCollections.observableArrayList(subList.getNames()));	// displays names from foodList
+        });
+
         addFood.setOnMouseClicked((event) -> {
             Food newFood = new Food(entername.getText(), Integer.valueOf(entercalories.getText()),Integer.valueOf(enterfats.getText()),Integer.valueOf(enterprotein.getText()),Integer.valueOf(entercarbs.getText()), Integer.valueOf(enterfiber.getText()));
             all.insertFood(newFood);
             display.set(all);
-            ObservableList<String> displayItems = FXCollections.observableArrayList (display.get().getNames());	// displays names from foodList
+            foodList.setItems(FXCollections.observableArrayList (display.get().getNames()));	// displays names from foodList
 
         });
-
 
                     // add to meal event handler
         addToMeal.setOnMouseClicked((event) -> {
@@ -315,6 +343,17 @@ public class Main extends Application {
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Open Resource File");
             fileChooser.showOpenDialog(primaryStage);
+            Scanner scanner = null;
+            try {
+                scanner = new Scanner(new File(fileChooser.getInitialFileName()));
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            scanner.useDelimiter(",");
+            while(scanner.hasNext()){
+                System.out.print(scanner.next()+"|");
+            }
+            scanner.close();
         });
 
         // event handler for analyzing meal

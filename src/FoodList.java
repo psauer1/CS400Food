@@ -1,7 +1,4 @@
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.SortedMap;
-import java.util.TreeMap;
+import java.util.*;
 
 public class FoodList {
 
@@ -27,21 +24,21 @@ public class FoodList {
     }
 
     public Food getFood(String searchName){
-        return name.get(searchName);
+        return name.getOrDefault(searchName, null);
     }
 
     public FoodList getFoodRange(String key, int high, int low){
-        Food[] searchList = (Food[]) vals.get(key).subMap(high,low).values().toArray();
+        Collection<Food> searchList = vals.get(key).subMap(high,low).values();
         FoodList subTree = new FoodList();
-        subTree.insertAllFood(searchList);
+        subTree.insertAllFood(searchList.toArray(new Food[searchList.size()]));
         return subTree;
     }
 
     public ArrayList<String> getNames() {
-        Food[] fullList = (Food[]) name.values().toArray();
+        Collection<Food> fList = name.values();
         ArrayList<String> names = new ArrayList<>();
-        for (int i = 0; i < fullList.length; i++) {
-            names.add(fullList[i].getName());
+        for (Food fitem : fList) {
+            names.add(fitem.getName());
         }
         return names;
     }

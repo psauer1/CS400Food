@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="Added FoodList">
+    <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="Finished FoodList">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/BPTree.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BPTree.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/BPTreeADT.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BPTreeADT.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Food.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Food.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/FoodData.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/FoodDataADT.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/FoodList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/FoodList.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
     </list>
@@ -89,24 +87,24 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="java" value="5" />
+          <entry key="java" value="6" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="JAVA" value="5" />
+          <entry key="JAVA" value="6" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="java" value="1362" />
-          <entry key="txt" value="16" />
+          <entry key="java" value="1892" />
+          <entry key="txt" value="24" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JAVA" value="1362" />
-          <entry key="PLAIN_TEXT" value="16" />
+          <entry key="JAVA" value="1892" />
+          <entry key="PLAIN_TEXT" value="24" />
         </counts>
       </usages-collector>
     </session>
@@ -116,27 +114,15 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/sample/Main.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="686">
-              <caret line="61" column="22" selection-start-line="61" selection-start-column="22" selection-end-line="61" selection-end-column="22" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-3956">
-              <caret line="17" column="33" lean-forward="true" selection-start-line="17" selection-start-column="33" selection-end-line="17" selection-end-column="33" />
+            <state relative-caret-position="300">
+              <caret line="351" column="35" selection-start-line="351" selection-start-column="35" selection-end-line="351" selection-end-column="35" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#24501#24502#0" expanded="true" />
-                <element signature="e#24529#24530#0" expanded="true" />
+                <element signature="e#25381#25382#0" expanded="true" />
+                <element signature="e#25409#25410#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -145,16 +131,15 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/FoodList.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="163">
-              <caret line="34" column="31" selection-start-line="34" selection-start-column="31" selection-end-line="34" selection-end-column="31" />
+            <state relative-caret-position="181">
+              <caret line="30" selection-start-line="30" selection-end-line="30" />
               <folding>
-                <element signature="imports" expanded="true" />
                 <element signature="e#122#136#0" expanded="true" />
                 <element signature="e#187#204#0" expanded="true" />
                 <element signature="e#554#555#0" expanded="true" />
                 <element signature="e#583#584#0" expanded="true" />
-                <element signature="e#751#752#0" expanded="true" />
-                <element signature="e#794#795#0" expanded="true" />
+                <element signature="e#719#720#0" expanded="true" />
+                <element signature="e#777#778#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -163,7 +148,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Food.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state>
+            <state relative-caret-position="-176">
               <caret column="13" selection-start-column="13" selection-end-column="13" />
             </state>
           </provider>
@@ -211,6 +196,7 @@
       <list>
         <option value="$PROJECT_DIR$/src/sample/Main.java" />
         <option value="$PROJECT_DIR$/src/FoodList.java" />
+        <option value="$PROJECT_DIR$/src/DataSourceReader.java" />
         <option value="$PROJECT_DIR$/src/Main.java" />
       </list>
     </option>
@@ -266,13 +252,16 @@
     <property name="OverrideImplement.combined" value="false" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1543948352649" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1543950112694" />
     <property name="dynamic.classpath" value="false" />
     <property name="extract.method.default.visibility" value="private" />
     <property name="recentsLimit" value="5" />
     <property name="settings.editor.selected.configurable" value="vcs.Git" />
   </component>
   <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src" />
     </key>
@@ -499,7 +488,7 @@
       <updated>1359379246138</updated>
       <workItem from="1359379250712" duration="1302000" />
       <workItem from="1543340786443" duration="1840000" />
-      <workItem from="1543944565624" duration="3693000" />
+      <workItem from="1543944565624" duration="5520000" />
     </task>
     <task id="LOCAL-00001" summary="Added FoodList">
       <created>1543946126220</created>
@@ -508,11 +497,18 @@
       <option name="project" value="LOCAL" />
       <updated>1543946126220</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Finished FoodList">
+      <created>1543948378400</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1543948378400</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="6835000" />
+    <option name="totallyTimeSpent" value="8662000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1680" height="972" extended-state="6" />
@@ -563,7 +559,8 @@
     <option name="OFFER_MOVE_TO_ANOTHER_CHANGELIST_ON_PARTIAL_COMMIT" value="true" />
     <option name="INCLUDE_TEXT_INTO_SHELF" value="false" />
     <MESSAGE value="Added FoodList" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added FoodList" />
+    <MESSAGE value="Finished FoodList" />
+    <option name="LAST_COMMIT_MESSAGE" value="Finished FoodList" />
   </component>
   <component name="antWorkspaceConfiguration">
     <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
@@ -609,23 +606,29 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/Food.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-176">
+          <caret column="13" selection-start-column="13" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/FoodList.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="163">
-          <caret line="34" column="31" selection-start-line="34" selection-start-column="31" selection-end-line="34" selection-end-column="31" />
+        <state relative-caret-position="181">
+          <caret line="30" selection-start-line="30" selection-end-line="30" />
           <folding>
-            <element signature="imports" expanded="true" />
             <element signature="e#122#136#0" expanded="true" />
             <element signature="e#187#204#0" expanded="true" />
             <element signature="e#554#555#0" expanded="true" />
             <element signature="e#583#584#0" expanded="true" />
-            <element signature="e#751#752#0" expanded="true" />
-            <element signature="e#794#795#0" expanded="true" />
+            <element signature="e#719#720#0" expanded="true" />
+            <element signature="e#777#778#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Food.java">
+    <entry file="file://$PROJECT_DIR$/src/DataSourceReader.java">
       <provider selected="true" editor-type-id="text-editor">
         <state>
           <caret column="13" selection-start-column="13" selection-end-column="13" />
@@ -634,12 +637,12 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-3956">
-          <caret line="17" column="33" lean-forward="true" selection-start-line="17" selection-start-column="33" selection-end-line="17" selection-end-column="33" />
+        <state relative-caret-position="300">
+          <caret line="351" column="35" selection-start-line="351" selection-start-column="35" selection-end-line="351" selection-end-column="35" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#24501#24502#0" expanded="true" />
-            <element signature="e#24529#24530#0" expanded="true" />
+            <element signature="e#25381#25382#0" expanded="true" />
+            <element signature="e#25409#25410#0" expanded="true" />
           </folding>
         </state>
       </provider>
