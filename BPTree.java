@@ -273,7 +273,9 @@ public class BPTree<K extends Comparable<K>, V> implements BPTreeADT<K, V> {
          */
         LeafNode() {
             super();
-            // TODO : Complete
+            values = new ArrayList<V>();
+            next = null;
+            previous = null;
         }
         
         
@@ -282,8 +284,7 @@ public class BPTree<K extends Comparable<K>, V> implements BPTreeADT<K, V> {
          * @see BPTree.Node#getFirstLeafKey()
          */
         K getFirstLeafKey() {
-            // TODO : Complete
-            return null;
+        		return keys.get(0);
         }
         
         /**
@@ -291,7 +292,9 @@ public class BPTree<K extends Comparable<K>, V> implements BPTreeADT<K, V> {
          * @see BPTree.Node#isOverflow()
          */
         boolean isOverflow() {
-            // TODO : Complete
+            if (keys.size() >= branchingFactor - 1) {
+            		return true;
+            }
             return false;
         }
         
@@ -300,16 +303,29 @@ public class BPTree<K extends Comparable<K>, V> implements BPTreeADT<K, V> {
          * @see BPTree.Node#insert(Comparable, Object)
          */
         void insert(K key, V value) {
-            // TODO : Complete
+            for (int i = 0; i < keys.size(); i++) {
+            		if (key.compareTo(keys.get(i)) == 0) {
+            			values.add(value);
+            		} else if (key.compareTo(keys.get(i)) < 0) {
+            			keys.add(i, key);
+            		}
+            }
         }
+        
+
         
         /**
          * (non-Javadoc)
          * @see BPTree.Node#split()
          */
         Node split() {
-            // TODO : Complete
-            return null;
+            InternalNode promote = new InternalNode();
+            LeafNode leftSplit = new LeafNode();
+            LeafNode rightSplit = new LeafNode();
+            
+            
+            
+            return promote;
         }
         
         /**
@@ -317,7 +333,11 @@ public class BPTree<K extends Comparable<K>, V> implements BPTreeADT<K, V> {
          * @see BPTree.Node#rangeSearch(Comparable, String)
          */
         List<V> rangeSearch(K key, String comparator) {
-            // TODO : Complete
+            for (int i = 0; i < keys.size(); i++) {
+            		if (keys.get(i).equals(comparator)) {
+            			return values;
+            		}
+            }
             return null;
         }
         
