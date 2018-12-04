@@ -164,7 +164,7 @@ public class BPTree<K extends Comparable<K>, V> implements BPTreeADT<K, V> {
 	private InternalNode getParent(InternalNode current, LeafNode leaf) {
 		
 		for (Node child : current.children) {
-			if (child.keys.get(0).compareTo(leaf.getFirstLeafKey()) > 0) {
+			if (child.keys.get(0).compareTo(leaf.getFirstLeafKey()) < 0) {
 				return getParent((InternalNode)child, leaf);
 			}
 			if (child.equals(leaf)) {
