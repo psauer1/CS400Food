@@ -6,11 +6,11 @@ public class FoodList {
     HashMap<String, TreeMap> vals = new HashMap<String, TreeMap>();
 
     public FoodList(){
-        vals.put("cal", new TreeMap<String, Food>());
-        vals.put("protein", new TreeMap<String, Food>());
-        vals.put("carbs", new TreeMap<String, Food>());
-        vals.put("fat", new TreeMap<String, Food>());
-        vals.put("fiber", new TreeMap<String, Food>());
+        vals.put("cal", new TreeMap<Float, Food>());
+        vals.put("protein", new TreeMap<Float, Food>());
+        vals.put("carbs", new TreeMap<Float, Food>());
+        vals.put("fat", new TreeMap<Float, Food>());
+        vals.put("fiber", new TreeMap<Float, Food>());
     }
 
     public void insertFood(Food item){
@@ -27,7 +27,7 @@ public class FoodList {
         return name.getOrDefault(searchName, null);
     }
 
-    public FoodList getFoodRange(String key, int high, int low){
+    public FoodList getFoodRange(String key, Float high, Float low){
         Collection<Food> searchList = vals.get(key).subMap(high,low).values();
         FoodList subTree = new FoodList();
         subTree.insertAllFood(searchList.toArray(new Food[searchList.size()]));

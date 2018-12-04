@@ -1,3 +1,4 @@
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -297,26 +298,26 @@ public class Main extends Application {
                 subList.insertFood(all.getFood(lowname.getText()));
             }
             if(caloriesBox.isSelected()) {
-                subList= subList.getFoodRange("cal",Integer.valueOf(lowCalories.getText()),Integer.valueOf(highCalories.getText()));
+                subList= subList.getFoodRange("cal",Float.valueOf(lowCalories.getText()),Float.valueOf(highCalories.getText()));
             }
             if(carbsBox.isSelected()) {
-                subList= subList.getFoodRange("carbs",Integer.valueOf(lowcarbs.getText()),Integer.valueOf(highcarbs.getText()));
+                subList= subList.getFoodRange("carbs",Float.valueOf(lowcarbs.getText()),Float.valueOf(highcarbs.getText()));
             }
             if(fiberBox.isSelected()) {
-                subList= subList.getFoodRange("fiber",Integer.valueOf(lowfiber.getText()),Integer.valueOf(highfiber.getText()));
+                subList= subList.getFoodRange("fiber",Float.valueOf(lowfiber.getText()),Float.valueOf(highfiber.getText()));
             }
             if(fatsBox.isSelected()) {
-                subList= subList.getFoodRange("fat",Integer.valueOf(lowfats.getText()),Integer.valueOf(highfats.getText()));
+                subList= subList.getFoodRange("fat",Float.valueOf(lowfats.getText()),Float.valueOf(highfats.getText()));
             }
             if(proteinBox.isSelected()) {
-                subList= subList.getFoodRange("protein",Integer.valueOf(lowprotein.getText()),Integer.valueOf(highprotein.getText()));
+                subList= subList.getFoodRange("protein",Float.valueOf(lowprotein.getText()),Float.valueOf(highprotein.getText()));
             }
 
             foodList.setItems(FXCollections.observableArrayList(subList.getNames()));	// displays names from foodList
         });
 
         addFood.setOnMouseClicked((event) -> {
-            Food newFood = new Food(entername.getText(), Integer.valueOf(entercalories.getText()),Integer.valueOf(enterfats.getText()),Integer.valueOf(enterprotein.getText()),Integer.valueOf(entercarbs.getText()), Integer.valueOf(enterfiber.getText()));
+            Food newFood = new Food(entername.getText(), Float.valueOf(entercalories.getText()),Float.valueOf(enterfats.getText()),Float.valueOf(enterprotein.getText()),Float.valueOf(entercarbs.getText()), Float.valueOf(enterfiber.getText()));
             all.insertFood(newFood);
             display.set(all);
             foodList.setItems(FXCollections.observableArrayList (display.get().getNames()));	// displays names from foodList
@@ -342,18 +343,33 @@ public class Main extends Application {
         importFood.setOnMouseClicked((event) -> {
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Open Resource File");
-            fileChooser.showOpenDialog(primaryStage);
+            File chosen = fileChooser.showOpenDialog(primaryStage);
             Scanner scanner = null;
+            System.out.print(fileChooser.getInitialFileName());
             try {
-                scanner = new Scanner(new File(fileChooser.getInitialFileName()));
+                scanner = new Scanner(chosen);
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
-            scanner.useDelimiter(",");
+            scanner.useDelimiter(",|\\n");
             while(scanner.hasNext()){
-                System.out.print(scanner.next()+"|");
+                String[] info = new String[6];
+                Boolean valid = true;
+                for(int i=0; i<6;i++) {
+                    scanner.next();
+                    info[i] = scanner.next().replaceAll("\\s+","");
+                    if(info[i]==null || info[i].equals("")){
+                        valid = false;
+                    }
+                }
+                System.out.println(info[0]);
+                if(valid) {
+                    Food item = new Food(info[0], Float.valueOf(info[1]), Float.valueOf(info[2]), Float.valueOf(info[3]), Float.valueOf(info[4]), Float.valueOf(info[5]));
+                    all.insertFood(item);
+                }
             }
             scanner.close();
+            foodList.setItems(FXCollections.observableArrayList (all.getNames()));
         });
 
         // event handler for analyzing meal

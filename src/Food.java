@@ -10,7 +10,7 @@ public class Food {
 	 * @param carb
 	 * @param fiber
 	 */
-	public Food(String name, int cal, int fat, int protein, int carb, int fiber) {
+	public Food(String name, float cal, float fat, float protein, float carb, float fiber) {
 		this.name = name;
 		this.cal = cal;
 		this.fat = fat;
@@ -21,34 +21,34 @@ public class Food {
 	
 	/*fields*/
 	String name;
-	int cal;
-	int fat;
-	int protein;
-	int carb;
-	int fiber;
+	float cal;
+	float fat;
+	float protein;
+	float carb;
+	float fiber;
 	
 	/*accessors*/
 	public String getName() {
 		return name;
 	}
 	
-	public int getCal() {
+	public float getCal() {
 		return cal;
 	}
 	
-	public int getFat() {
+	public float getFat() {
 		return fat;
 	}
 	
-	public int getProtein() {
+	public float getProtein() {
 		return protein;
 	}
 	
-	public int getCarb() {
+	public float getCarb() {
 		return carb;
 	}
 	
-	public int getFiber() {
+	public float getFiber() {
 		return fiber;
 	}
 }
