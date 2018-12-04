@@ -331,34 +331,39 @@ public class BPTree<K extends Comparable<K>, V> implements BPTreeADT<K, V> {
          * @see BPTree.Node#insert(Comparable, Object)
          */
         void insert(K key, V value) {
-			
-	    if (!isOverflow()) {
-	    	for (int i = 0; i < keys.size(); i++) {
-			if (key.compareTo(keys.get(i)) < 0) {
-			    keys.add(i, key);
-			    values.add(i, value);
-	 		    return;
-			}
-		}
-		keys.add(key);
-		values.add(value);
-		} else {
-  	   	    split();
-		}
-    	}
+            for (int i = 0; i < keys.size(); i++) {
+            		if (keys.get(i).compareTo(key) >= 0) {
+            			keys.add(i, key);
+            			values.add(i, value);
+            		}
+            }
+            if (isOverflow()) {
+            		split();
+            }
+        }
+        
+
         
         /**
          * (non-Javadoc)
          * @see BPTree.Node#split()
          */
         Node split() {
-            InternalNode promote = new InternalNode();
-            LeafNode leftSplit = new LeafNode();
-            LeafNode rightSplit = new LeafNode();
+        		int splitIndex = keys.size() / 2;
+        		
+        		// split this node into right
+        		LeafNode rightSplit = new LeafNode();
+        		rightSplit.keys = keys.subList(splitIndex, keys.size());
+        		keys = keys.subList(0, keys.size());
+        		
+        		// connect this node to new right node
+        		next = rightSplit;
+        		rightSplit.previous = this;
+        		
+        		// promote key.get(splitIndex) to internalNode
             
-            
-            
-            return promote;
+        		
+            return rightSplit;
         }
         
         /**
