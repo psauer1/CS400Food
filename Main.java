@@ -307,114 +307,135 @@ public class Main extends Application {
 
         // event handler for analyzing meal
         analyzeMeal.setOnMouseClicked((event) -> {
-
-        	// create new stage titled analyze
-            Stage stageA = new Stage();
-            stageA.setTitle("Analyze");
-
-            // create HBox for new stage
-            HBox analyzeRoot = new HBox();
-            analyzeRoot.setSpacing(10);
-            analyzeRoot.setPadding(new Insets(15,20, 10,10));
-            analyzeRoot.prefHeightProperty().bind(stageA.heightProperty().multiply(0.9));
-
-            // create VBoxes for new analyze HBox
-            VBox mealFood = new VBox();
-            VBox foodTotals = new VBox();
-
-            mealFood.prefWidthProperty().bind(analyzeRoot.widthProperty().multiply(0.40));
-            foodTotals.prefWidthProperty().bind(analyzeRoot.widthProperty().multiply(0.60));
-
-            // set up meal label
-            Label mealLabel = new Label("Meal");
-            mealLabel.setPadding(new Insets(0,0, 30,0));
-            mealLabel.setFont(new Font("Arial",24));
-            mealFood.getChildren().add(mealLabel);
-
-            // create meal list
-            ListView<String> finalMeal = new ListView<String>();
-            ObservableList<String> mealFinalItems = FXCollections.observableArrayList (
-                    "Carrot","Lettuce","Granola","Ice Cream");
-            finalMeal.setItems(mealFinalItems);
-            finalMeal.prefWidthProperty().bind(mealFood.widthProperty().multiply(1.0));
-            mealFood.getChildren().add(finalMeal);
-
-            // nutrition summary set up
-            Label nutLabel = new Label("Nutrition Facts");
-            nutLabel.setPadding(new Insets(0,0, 30,0));
-            nutLabel.setFont(new Font("Arial",24));
-            foodTotals.getChildren().add(nutLabel);
-
-            // calories summary set up
-            HBox totCal = new HBox();
-            totCal.setPadding(new Insets(0,0, 10,0));
-            totCal.prefWidthProperty().bind(foodTotals.widthProperty().multiply(1.0));
-            Label totalCal = new Label("Calories");
-            totalCal.prefWidthProperty().bind(totCal.widthProperty().multiply(0.5));
-            Label numCal = new Label("1000");
-            numCal.prefWidthProperty().bind(totCal.widthProperty().multiply(.5));
-            totCal.getChildren().add(totalCal);
-            totCal.getChildren().add(numCal);
-            foodTotals.getChildren().add(totCal);
-
-            // fats summary set up
-            HBox totFat = new HBox();
-            totFat.setPadding(new Insets(0,0, 10,0));
-            totFat.prefWidthProperty().bind(foodTotals.widthProperty().multiply(1.0));
-            Label totalFat = new Label("Fat");
-            totalFat.prefWidthProperty().bind(totFat.widthProperty().multiply(0.5));
-            Label numFat = new Label("10g");
-            numFat.prefWidthProperty().bind(totFat.widthProperty().multiply(.5));
-            totFat.getChildren().add(totalFat);
-            totFat.getChildren().add(numFat);
-            foodTotals.getChildren().add(totFat);
-
-            // carbs summary set up
-            HBox totCarb = new HBox();
-            totCarb.setPadding(new Insets(0,0, 10,0));
-            totCarb.prefWidthProperty().bind(foodTotals.widthProperty().multiply(1.0));
-            Label totalCarb = new Label("Carbs");
-            totalCarb.prefWidthProperty().bind(totCarb.widthProperty().multiply(0.5));
-            Label numCarb = new Label("100g");
-            numCarb.prefWidthProperty().bind(totCarb.widthProperty().multiply(.5));
-            totCarb.getChildren().add(totalCarb);
-            totCarb.getChildren().add(numCarb);
-            foodTotals.getChildren().add(totCarb);
-
-            // fiber summary set up
-            HBox totFib = new HBox();
-            totFib.setPadding(new Insets(0,0, 10,0));
-            totFib.prefWidthProperty().bind(foodTotals.widthProperty().multiply(1.0));
-            Label totalFib = new Label("Fiber");
-            totalFib.prefWidthProperty().bind(totFib.widthProperty().multiply(0.5));
-            Label numFib = new Label("20g");
-            numFib.prefWidthProperty().bind(totFib.widthProperty().multiply(.5));
-            totFib.getChildren().add(totalFib);
-            totFib.getChildren().add(numFib);
-            foodTotals.getChildren().add(totFib);
-
-            // protein summary set up
-            HBox totProt = new HBox();
-            totProt.setPadding(new Insets(0,0, 10,0));
-            totProt.prefWidthProperty().bind(foodTotals.widthProperty().multiply(1.0));
-            Label totalProt = new Label("Protein");
-            totalProt.prefWidthProperty().bind(totProt.widthProperty().multiply(0.5));
-            Label numProt = new Label("200g");
-            numProt.prefWidthProperty().bind(totProt.widthProperty().multiply(.5));
-            totProt.getChildren().add(totalProt);
-            totProt.getChildren().add(numProt);
-            foodTotals.getChildren().add(totProt);
-
-            // set up new scene
-            analyzeRoot.getChildren().add(mealFood);
-            analyzeRoot.getChildren().add(foodTotals);
-            Scene analyzeScene = new Scene(analyzeRoot, 600, 400);
-
-            stageA.setScene(analyzeScene);
-            stageA.show();
+        	boolean test = true;
+        	// if meal list is empty pop up alert message
+        	if (test) {
+	        	Stage errorStage = new Stage();
+	            errorStage.setTitle("Error");
+	            
+	            HBox errorRoot = new HBox();
+	            errorRoot.setSpacing(10);
+	            errorRoot.setPadding(new Insets(15,20, 10,10));
+	            errorRoot.prefHeightProperty().bind(errorStage.heightProperty().multiply(0.9));
+	
+	            Label errorLabel = new Label("Error: cannot analyze an empty meal");
+	            errorLabel.setPadding(new Insets(0,0, 30,0));
+	            errorLabel.setFont(new Font("Arial",24));
+	            errorRoot.getChildren().add(errorLabel);
+	            Scene errorScene = new Scene(errorRoot, 500, 100);
+	            errorStage.setScene(errorScene);
+	            errorStage.show();
+	        
+	        // else create new stage and scene for analysis
+        	} else {
+	        	// create new stage titled analyze
+	            Stage stageA = new Stage();
+	            stageA.setTitle("Analyze");
+	
+	            // create HBox for new stage
+	            HBox analyzeRoot = new HBox();
+	            analyzeRoot.setSpacing(10);
+	            analyzeRoot.setPadding(new Insets(15,20, 10,10));
+	            analyzeRoot.prefHeightProperty().bind(stageA.heightProperty().multiply(0.9));
+	
+	            // create VBoxes for new analyze HBox
+	            VBox mealFood = new VBox();
+	            VBox foodTotals = new VBox();
+	
+	            mealFood.prefWidthProperty().bind(analyzeRoot.widthProperty().multiply(0.40));
+	            foodTotals.prefWidthProperty().bind(analyzeRoot.widthProperty().multiply(0.60));
+	
+	            // set up meal label
+	            Label mealLabel = new Label("Meal");
+	            mealLabel.setPadding(new Insets(0,0, 30,0));
+	            mealLabel.setFont(new Font("Arial",24));
+	            mealFood.getChildren().add(mealLabel);
+	
+	            // create meal list
+	            ListView<String> finalMeal = new ListView<String>();
+	            ObservableList<String> mealFinalItems = FXCollections.observableArrayList (
+	                    "Carrot","Lettuce","Granola","Ice Cream");
+	            finalMeal.setItems(mealFinalItems);
+	            finalMeal.prefWidthProperty().bind(mealFood.widthProperty().multiply(1.0));
+	            mealFood.getChildren().add(finalMeal);
+	
+	            // nutrition summary set up
+	            Label nutLabel = new Label("Nutrition Facts");
+	            nutLabel.setPadding(new Insets(0,0, 30,0));
+	            nutLabel.setFont(new Font("Arial",24));
+	            foodTotals.getChildren().add(nutLabel);
+	
+	            // calories summary set up
+	            HBox totCal = new HBox();
+	            totCal.setPadding(new Insets(0,0, 10,0));
+	            totCal.prefWidthProperty().bind(foodTotals.widthProperty().multiply(1.0));
+	            Label totalCal = new Label("Calories");
+	            totalCal.prefWidthProperty().bind(totCal.widthProperty().multiply(0.5));
+	            Label numCal = new Label("1000");
+	            numCal.prefWidthProperty().bind(totCal.widthProperty().multiply(.5));
+	            totCal.getChildren().add(totalCal);
+	            totCal.getChildren().add(numCal);
+	            foodTotals.getChildren().add(totCal);
+	
+	            // fats summary set up
+	            HBox totFat = new HBox();
+	            totFat.setPadding(new Insets(0,0, 10,0));
+	            totFat.prefWidthProperty().bind(foodTotals.widthProperty().multiply(1.0));
+	            Label totalFat = new Label("Fat");
+	            totalFat.prefWidthProperty().bind(totFat.widthProperty().multiply(0.5));
+	            Label numFat = new Label("10g");
+	            numFat.prefWidthProperty().bind(totFat.widthProperty().multiply(.5));
+	            totFat.getChildren().add(totalFat);
+	            totFat.getChildren().add(numFat);
+	            foodTotals.getChildren().add(totFat);
+	
+	            // carbs summary set up
+	            HBox totCarb = new HBox();
+	            totCarb.setPadding(new Insets(0,0, 10,0));
+	            totCarb.prefWidthProperty().bind(foodTotals.widthProperty().multiply(1.0));
+	            Label totalCarb = new Label("Carbs");
+	            totalCarb.prefWidthProperty().bind(totCarb.widthProperty().multiply(0.5));
+	            Label numCarb = new Label("100g");
+	            numCarb.prefWidthProperty().bind(totCarb.widthProperty().multiply(.5));
+	            totCarb.getChildren().add(totalCarb);
+	            totCarb.getChildren().add(numCarb);
+	            foodTotals.getChildren().add(totCarb);
+	
+	            // fiber summary set up
+	            HBox totFib = new HBox();
+	            totFib.setPadding(new Insets(0,0, 10,0));
+	            totFib.prefWidthProperty().bind(foodTotals.widthProperty().multiply(1.0));
+	            Label totalFib = new Label("Fiber");
+	            totalFib.prefWidthProperty().bind(totFib.widthProperty().multiply(0.5));
+	            Label numFib = new Label("20g");
+	            numFib.prefWidthProperty().bind(totFib.widthProperty().multiply(.5));
+	            totFib.getChildren().add(totalFib);
+	            totFib.getChildren().add(numFib);
+	            foodTotals.getChildren().add(totFib);
+	
+	            // protein summary set up
+	            HBox totProt = new HBox();
+	            totProt.setPadding(new Insets(0,0, 10,0));
+	            totProt.prefWidthProperty().bind(foodTotals.widthProperty().multiply(1.0));
+	            Label totalProt = new Label("Protein");
+	            totalProt.prefWidthProperty().bind(totProt.widthProperty().multiply(0.5));
+	            Label numProt = new Label("200g");
+	            numProt.prefWidthProperty().bind(totProt.widthProperty().multiply(.5));
+	            totProt.getChildren().add(totalProt);
+	            totProt.getChildren().add(numProt);
+	            foodTotals.getChildren().add(totProt);
+	
+	            // set up new scene
+	            analyzeRoot.getChildren().add(mealFood);
+	            analyzeRoot.getChildren().add(foodTotals);
+	            Scene analyzeScene = new Scene(analyzeRoot, 600, 400);
+	
+	            stageA.setScene(analyzeScene);
+	            stageA.show();
+        	}
         });
     }
-
+	
     /**
      * Launches the GUI
      * 
