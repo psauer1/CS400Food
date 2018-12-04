@@ -69,7 +69,7 @@ public class BPTree<K extends Comparable<K>, V> implements BPTreeADT<K, V> {
 			this.root = newRoot;
 		} else {
 			for (LeafNode leaf : leaves) {
-				if (leaf.keys.get(0).compareTo(key) >= 0) {
+				if (leaf.getFirstLeafKey().compareTo(key) >= 0) {
 					if (leaf.keys.get(leaf.keys.size() - 1).compareTo(key) <= 0) {
 						if (leaf.isOverflow()) {
 							leaf.split();
@@ -312,7 +312,7 @@ public class BPTree<K extends Comparable<K>, V> implements BPTreeADT<K, V> {
          * @see BPTree.Node#getFirstLeafKey()
          */
         K getFirstLeafKey() {
-        		return keys.get(0);
+        	return keys.get(0);
         }
         
         /**
@@ -321,7 +321,7 @@ public class BPTree<K extends Comparable<K>, V> implements BPTreeADT<K, V> {
          */
         boolean isOverflow() {
             if (keys.size() >= branchingFactor - 1) {
-            		return true;
+            	return true;
             }
             return false;
         }
@@ -332,11 +332,11 @@ public class BPTree<K extends Comparable<K>, V> implements BPTreeADT<K, V> {
          */
         void insert(K key, V value) {
             for (int i = 0; i < keys.size(); i++) {
-            		if (key.compareTo(keys.get(i)) == 0) {
-            			values.add(value);
-            		} else if (key.compareTo(keys.get(i)) < 0) {
-            			keys.add(i, key);
-            		}
+            	if (key.compareTo(keys.get(i)) == 0) {
+            		values.add(value);
+            	} else if (key.compareTo(keys.get(i)) < 0) {
+            		keys.add(i, key);
+            	}
             }
         }
         
