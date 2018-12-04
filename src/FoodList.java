@@ -2,8 +2,8 @@ import java.util.*;
 
 public class FoodList {
 
-    TreeMap<String, Food> name = new TreeMap<String, Food>();
-    HashMap<String, TreeMap> vals = new HashMap<String, TreeMap>();
+    private TreeMap<String, Food> name = new TreeMap<String, Food>();
+    private HashMap<String, TreeMap> vals = new HashMap<String, TreeMap>();
 
     public FoodList(){
         vals.put("cal", new TreeMap<Float, Food>());
@@ -15,6 +15,10 @@ public class FoodList {
 
     public void insertFood(Food item){
         putVals(item);
+    }
+
+    public void removeFood(String itemName){
+        name.remove(itemName);
     }
 
     public void insertAllFood(Food[] items){
@@ -41,6 +45,10 @@ public class FoodList {
             names.add(fitem.getName());
         }
         return names;
+    }
+
+    public Food[] getAll(){
+        return name.values().toArray(new Food[name.values().size()]);
     }
 
     private void putVals(Food item) {

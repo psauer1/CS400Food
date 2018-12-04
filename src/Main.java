@@ -1,4 +1,3 @@
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -13,6 +12,7 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.Scanner;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -32,7 +32,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
         FoodList all = new FoodList();
         AtomicReference<FoodList> display = new AtomicReference<>(new FoodList());
-        FoodList menu = new FoodList();
+        AtomicReference<FoodList> menu = new AtomicReference<>(new FoodList());
 
         HBox root = new HBox();	// creates root HBox
         root.setSpacing(10);
@@ -173,20 +173,30 @@ public class Main extends Application {
         foodList.prefWidthProperty().bind(foodItems.widthProperty().multiply(1.0));
         
         ListView<String> mealList = new ListView<String>();	// creates list for the meal
-        ObservableList<String> itemsInMeal = FXCollections.observableArrayList (menu.getNames());	// displays names from menu foodlist
+        ObservableList<String> itemsInMeal = FXCollections.observableArrayList (menu.get().getNames());	// displays names from menu foodlist
         mealList.setItems(itemsInMeal);	// adds meal list to the list view for meal
         mealList.prefWidthProperty().bind(mealItems.widthProperty().multiply(1.0));
         mealItems.getChildren().add(mealList);	// adds meal list to the meal items VBox
         
         foodItems.getChildren().add(foodList);	// adds food list to the food items VBox
         buttons.setPadding(new Insets(100,10, 10,10));
-        
+
+        HBox addCon = new HBox();
+        addCon.setPadding(new Insets(0,0, 10,0));
         Button addToMeal= new Button("Add");	// creates button for adding items from food to meal list
         addToMeal.prefWidthProperty().bind(buttons.widthProperty().multiply(1.0));
-        
+
+        HBox removeCon = new HBox();
+        removeCon.setPadding(new Insets(0,0, 10,0));
         Button removeFromMeal= new Button("Remove");	// creates button for removing item from meal list
         removeFromMeal.prefWidthProperty().bind(buttons.widthProperty().multiply(1.0));
-        buttons.getChildren().add(addToMeal);	// adds add button to the button VBox
+        Button clear= new Button("Clear");	// creates button for removing item from meal list
+        clear.prefWidthProperty().bind(buttons.widthProperty().multiply(1.0));
+        buttons.getChildren().add(clear);	// adds add button to the button VBox
+        addCon.getChildren().add(addToMeal);	// adds add button to the button VBox
+        removeCon.getChildren().add(addToMeal);	// adds add button to the button VBox
+        buttons.getChildren().add(addCon);
+        buttons.getChildren().add(removeCon);
         buttons.getChildren().add(removeFromMeal);	// adds remove button to the button VBox
         subAnalyze.getChildren().add(foodItems);	// adds food VBox to the sub-analyze HBox	
         subAnalyze.getChildren().add(buttons);	// adds buttons VBox to the sub-analyze HBox
@@ -276,6 +286,12 @@ public class Main extends Application {
         addFood.prefWidthProperty().bind(sort.widthProperty().multiply(1.0));
         addFoodContain.getChildren().add(addFood);	// add food button to the add food HBox
         add.getChildren().add(addFoodContain);	// add food HBox to the add VBox
+        HBox exportFoodContain = new HBox();	// food contain HBox
+        exportFoodContain.setPadding(new Insets(0,0, 10,0));
+        Button exportFood = new Button("Export Food");	// add food button
+        exportFood.prefWidthProperty().bind(sort.widthProperty().multiply(1.0));
+        exportFoodContain.getChildren().add(exportFood);	// add food button to the add food HBox
+        add.getChildren().add(exportFoodContain);	// add food HBox to the add VBox
         Button importFood = new Button("Import Food");	// import food button for reading in files
         importFood.prefWidthProperty().bind(sort.widthProperty().multiply(1.0));
         add.getChildren().add(importFood);	// add import to add VBox
@@ -327,15 +343,21 @@ public class Main extends Application {
                     // add to meal event handler
         addToMeal.setOnMouseClicked((event) -> {
         	// copy highlighted items from food list to the meal list
-            itemsInMeal.add(foodList.getSelectionModel().getSelectedItem());
-            mealList.setItems(itemsInMeal);
+            Food addItem = all.getFood(foodList.getSelectionModel().getSelectedItem());
+            menu.get().insertFood(addItem);
+            mealList.setItems(FXCollections.observableArrayList(menu.get().getNames()));	// displays names from foodList
+        });
+
+        clear.setOnMouseClicked((event) -> {
+            menu.set(new FoodList());
+            mealList.setItems(FXCollections.observableArrayList(menu.get().getNames()));	// displays names from foodList
         });
 
         // remove from meal event handler
         removeFromMeal.setOnMouseClicked((event) -> {
         	// remove highlighted items from meal list
-            itemsInMeal.remove(mealList.getSelectionModel().getSelectedItem());
-            mealList.setItems(itemsInMeal);
+            menu.get().removeFood(mealList.getSelectionModel().getSelectedItem());
+            mealList.setItems(FXCollections.observableArrayList(menu.get().getNames()));	// displays names from foodList
 
         });
 
@@ -343,6 +365,7 @@ public class Main extends Application {
         importFood.setOnMouseClicked((event) -> {
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Open Resource File");
+            fileChooser.setSelectedExtensionFilter(new FileChooser.ExtensionFilter("CSV files (*.csv)", "*.csv"));
             File chosen = fileChooser.showOpenDialog(primaryStage);
             Scanner scanner = null;
             System.out.print(fileChooser.getInitialFileName());
@@ -362,9 +385,8 @@ public class Main extends Application {
                         valid = false;
                     }
                 }
-                System.out.println(info[0]);
                 if(valid) {
-                    Food item = new Food(info[0], Float.valueOf(info[1]), Float.valueOf(info[2]), Float.valueOf(info[3]), Float.valueOf(info[4]), Float.valueOf(info[5]));
+                    Food item = new Food(info[0], Float.valueOf(info[1]), Float.valueOf(info[2]), Float.valueOf(info[5]), Float.valueOf(info[3]), Float.valueOf(info[4]));
                     all.insertFood(item);
                 }
             }
@@ -372,8 +394,46 @@ public class Main extends Application {
             foodList.setItems(FXCollections.observableArrayList (all.getNames()));
         });
 
+        exportFood.setOnMouseClicked((event) -> {
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Open Resource File");
+            File path = fileChooser.showSaveDialog(primaryStage);
+            PrintWriter pw = null;
+            try {
+                pw = new PrintWriter(path);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+
+            StringBuilder sb = new StringBuilder();
+            for(Food item : all.getAll()){
+                sb.append(item);
+                sb.append(',');
+                sb.append(item.getName()+',');
+                sb.append("calories,"+item.getCal()+',');
+                sb.append("fat,"+item.getFat()+',');
+                sb.append("carbohydrate,"+item.getCarb()+',');
+                sb.append("fiber,"+item.getFiber()+',');
+                sb.append("protein,"+item.getProtein());
+                sb.append('\n');
+
+            }
+
+            pw.write(sb.toString());
+            pw.close();
+        });
+
         // event handler for analyzing meal
         analyzeMeal.setOnMouseClicked((event) -> {
+
+            Float[] data = {new Float(0),new Float(0),new Float(0),new Float(0),new Float(0)};
+            for(Food foodItem : menu.get().getAll()){
+                data[0]+=foodItem.getCal();
+                data[1]+=foodItem.getCarb();
+                data[2]+=foodItem.getProtein();
+                data[3]+=foodItem.getFat();
+                data[4]+=foodItem.getFiber();
+            }
 
         	// create new stage titled analyze
             Stage stageA = new Stage();
@@ -400,9 +460,7 @@ public class Main extends Application {
 
             // create meal list
             ListView<String> finalMeal = new ListView<String>();
-            ObservableList<String> mealFinalItems = FXCollections.observableArrayList (
-                    "Carrot","Lettuce","Granola","Ice Cream");
-            finalMeal.setItems(mealFinalItems);
+            finalMeal.setItems(FXCollections.observableArrayList(menu.get().getNames()));	// displays names from foodList
             finalMeal.prefWidthProperty().bind(mealFood.widthProperty().multiply(1.0));
             mealFood.getChildren().add(finalMeal);
 
@@ -418,7 +476,7 @@ public class Main extends Application {
             totCal.prefWidthProperty().bind(foodTotals.widthProperty().multiply(1.0));
             Label totalCal = new Label("Calories");
             totalCal.prefWidthProperty().bind(totCal.widthProperty().multiply(0.5));
-            Label numCal = new Label("1000");
+            Label numCal = new Label(data[0].toString());
             numCal.prefWidthProperty().bind(totCal.widthProperty().multiply(.5));
             totCal.getChildren().add(totalCal);
             totCal.getChildren().add(numCal);
@@ -430,7 +488,7 @@ public class Main extends Application {
             totFat.prefWidthProperty().bind(foodTotals.widthProperty().multiply(1.0));
             Label totalFat = new Label("Fat");
             totalFat.prefWidthProperty().bind(totFat.widthProperty().multiply(0.5));
-            Label numFat = new Label("10g");
+            Label numFat = new Label(data[3].toString());
             numFat.prefWidthProperty().bind(totFat.widthProperty().multiply(.5));
             totFat.getChildren().add(totalFat);
             totFat.getChildren().add(numFat);
@@ -442,7 +500,7 @@ public class Main extends Application {
             totCarb.prefWidthProperty().bind(foodTotals.widthProperty().multiply(1.0));
             Label totalCarb = new Label("Carbs");
             totalCarb.prefWidthProperty().bind(totCarb.widthProperty().multiply(0.5));
-            Label numCarb = new Label("100g");
+            Label numCarb = new Label(data[1].toString());
             numCarb.prefWidthProperty().bind(totCarb.widthProperty().multiply(.5));
             totCarb.getChildren().add(totalCarb);
             totCarb.getChildren().add(numCarb);
@@ -454,7 +512,7 @@ public class Main extends Application {
             totFib.prefWidthProperty().bind(foodTotals.widthProperty().multiply(1.0));
             Label totalFib = new Label("Fiber");
             totalFib.prefWidthProperty().bind(totFib.widthProperty().multiply(0.5));
-            Label numFib = new Label("20g");
+            Label numFib = new Label(data[4].toString());
             numFib.prefWidthProperty().bind(totFib.widthProperty().multiply(.5));
             totFib.getChildren().add(totalFib);
             totFib.getChildren().add(numFib);
@@ -466,7 +524,7 @@ public class Main extends Application {
             totProt.prefWidthProperty().bind(foodTotals.widthProperty().multiply(1.0));
             Label totalProt = new Label("Protein");
             totalProt.prefWidthProperty().bind(totProt.widthProperty().multiply(0.5));
-            Label numProt = new Label("200g");
+            Label numProt = new Label(data[2].toString());
             numProt.prefWidthProperty().bind(totProt.widthProperty().multiply(.5));
             totProt.getChildren().add(totalProt);
             totProt.getChildren().add(numProt);
