@@ -241,24 +241,16 @@ public class BPTree<K extends Comparable<K>, V> implements BPTreeADT<K, V> {
          * (non-Javadoc)
          * @see BPTree.Node#insert(java.lang.Comparable, java.lang.Object)
          */
-        void insert(K key, V value) {
+	void insert(K key, V value) {
 		for (int i = 0; i < keys.size(); i++) {
-				if (keys.get(i).compareTo(key) >= 0) {
-					
-				}
+			if (keys.get(i).compareTo(key) >= 0) {
+				keys.add(i, key);
 			}
-			if (isOverflow()) {
-				split();
-			}
-            // TODO : Complete
-        	for (int i=0; i<keys.size(); i++) {
-        		K curr = keys.get(i);
-        		// what if it is equal to ???
-        		if (key.compareTo(curr) < 0) {
-        			keys.add(i, key);
-        		}
-        	}
-        }
+		}
+		if (isOverflow()) {
+			split();
+		}
+	}
         
         /**
          * (non-Javadoc)
