@@ -24,38 +24,66 @@ import java.util.Random;
 public class BPTree<K extends Comparable<K>, V> implements BPTreeADT<K, V> {
 
     // Root of the tree
-    private Node root;
-    
-    // Branching factor is the number of children nodes 
-    // for internal nodes of the tree
-    private int branchingFactor;
-    
+	private Node root;
+
+	// Branching factor is the number of children nodes
+	// for internal nodes of the tree
+	private int branchingFactor;
+
+	private LinkedList<LeafNode> leaves;
+
+	/**
+	 * Public constructor
+	 * 
+	 * @param branchingFactor
+	 */
+	public BPTree(int branchingFactor) {
+
+		if (branchingFactor <= 2) {
+			throw new IllegalArgumentException("Illegal branching factor: " + branchingFactor);
+		}
+		this.branchingFactor = branchingFactor;
+		leaves = new LinkedList<LeafNode>();
+	}
+
+	public boolean isEmpty() {
+
+		if (root == null) {
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * (non-Javadoc)
+	 * 
+	 * @see BPTreeADT#insert(java.lang.Object, java.lang.Object)
+	 */
+	@Override
+	public void insert(K key, V value) {
+
+		if (isEmpty()) {
+			LeafNode newRoot = new LeafNode();
+			newRoot.insert(key, value);
+			leaves.add(newRoot);
+			this.root = newRoot;
+		} else {
+			for (LeafNode leaf : leaves) {
+				if (leaf.keys.get(0).compareTo(key) >= 0) {
+					if (leaf.keys.get(leaf.keys.size() - 1).compareTo(key) <= 0) {
+						if (leaf.isOverflow()) {
+							leaf.split();
+						} else {
+							leaf.insert(key, value);
+						}
+						return;
+					} 
+				}
+			}
+		}
+	}
     
     /**
-     * Public constructor
-     * 
-     * @param branchingFactor 
-     */
-    public BPTree(int branchingFactor) {
-        if (branchingFactor <= 2) {
-            throw new IllegalArgumentException(
-               "Illegal branching factor: " + branchingFactor);
-        }
-        // TODO : Complete
-    }
-    
-    
-    /*
-     * (non-Javadoc)
-     * @see BPTreeADT#insert(java.lang.Object, java.lang.Object)
-     */
-    @Override
-    public void insert(K key, V value) {
-        // TODO : Complete
-    }
-    
-    
-    /*
      * (non-Javadoc)
      * @see BPTreeADT#rangeSearch(java.lang.Object, java.lang.String)
      */
