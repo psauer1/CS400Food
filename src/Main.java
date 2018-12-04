@@ -10,6 +10,8 @@ import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
+import java.util.concurrent.atomic.AtomicReference;
+
 /**
  * Main class creates and pops up the Graphical User Interface for the meal analysis.
  * 
@@ -20,10 +22,14 @@ public class Main extends Application {
 	/**
 	 * Starts the GUI and sets up the stage, scenes, buttons, and other internal features.
 	 * 
-	 * @param Stage
+	 * @param primaryStage
 	 */
     @Override
     public void start(Stage primaryStage) throws Exception {
+        FoodList all = new FoodList();
+        AtomicReference<FoodList> display = new AtomicReference<>(new FoodList());
+        FoodList menu = new FoodList();
+
         HBox root = new HBox();	// creates root HBox
         root.setSpacing(10);
         root.setPadding(new Insets(15,20,10,10));
@@ -158,13 +164,12 @@ public class Main extends Application {
         mealItems.getChildren().add(mealItemsLabel);
         
         ListView<String> foodList = new ListView<String>();	// creates list for the food
-        ObservableList<String> items = FXCollections.observableArrayList (
-                "Carrot","Lettuce","Granola","Hamburger");	// temporary food items for non-functional GUI
+        ObservableList<String> items = FXCollections.observableArrayList (display.get().getNames());	// displays names from foodList
         foodList.setItems(items);	// set items into the food list
         foodList.prefWidthProperty().bind(foodItems.widthProperty().multiply(1.0));
         
         ListView<String> mealList = new ListView<String>();	// creates list for the meal
-        ObservableList<String> itemsInMeal = FXCollections.observableArrayList ();	// creates empty meal list
+        ObservableList<String> itemsInMeal = FXCollections.observableArrayList (menu.getNames());	// displays names from menu foodlist
         mealList.setItems(itemsInMeal);	// adds meal list to the list view for meal
         mealList.prefWidthProperty().bind(mealItems.widthProperty().multiply(1.0));
         mealItems.getChildren().add(mealList);	// adds meal list to the meal items VBox
@@ -281,7 +286,16 @@ public class Main extends Application {
         primaryStage.setScene(scene);	// set the scene on the primary stage
         primaryStage.show();	// show primary stage
 
-        // add to meal event handler
+        addFood.setOnMouseClicked((event) -> {
+            Food newFood = new Food(entername.getText(), Integer.valueOf(entercalories.getText()),Integer.valueOf(enterfats.getText()),Integer.valueOf(enterprotein.getText()),Integer.valueOf(entercarbs.getText()), Integer.valueOf(enterfiber.getText()));
+            all.insertFood(newFood);
+            display.set(all);
+            ObservableList<String> displayItems = FXCollections.observableArrayList (display.get().getNames());	// displays names from foodList
+
+        });
+
+
+                    // add to meal event handler
         addToMeal.setOnMouseClicked((event) -> {
         	// copy highlighted items from food list to the meal list
             itemsInMeal.add(foodList.getSelectionModel().getSelectedItem());
