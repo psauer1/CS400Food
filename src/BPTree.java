@@ -383,26 +383,26 @@ public class BPTree<K extends Comparable<K>, V> implements BPTreeADT<K, V> {
          */
         void insert(K key, V value) {
 		
-		if (!isOverflow()) {
-			for (int i = 0; i < keys.size(); i++) {
-				if (key.compareTo(keys.get(i)) == 0) {
-					List<V> curVals = kvPairs.get(key);
-					kvPairs.remove(key);
-					curVals.add(value);
-					kvPairs.put(key, curVals);
-					return;
-				} else if (key.compareTo(keys.get(i)) < 0) {
-					keys.add(i, key);
-					values.add(i, value);
-					List<V> pairVals = new ArrayList<V>();
-					pairVals.add(value);
-					kvPairs.put(key, pairVals);
-					return;
-				}
+		boolean toSplit = false;
+		if (isOverflow()) {
+			toSplit = true;
+		}
+		for (int i = 0; i < keys.size(); i++) {
+			if (key.compareTo(keys.get(i)) == 0) {
+				List<V> curVals = kvPairs.get(key);
+				kvPairs.remove(key);
+				curVals.add(value);
+				kvPairs.put(key, curVals);
+				break;
+			} else if (key.compareTo(keys.get(i)) < 0) {
+				keys.add(i, key);
+				values.add(i, value);
+				List<V> pairVals = new ArrayList<V>();
+				pairVals.add(value);
+				kvPairs.put(key, pairVals);
+				break;
 			}
-		} else {
-			keys.add(key);
-			values.add(value);
+		} if (toSplit) {
 			split();
 		}
         }
