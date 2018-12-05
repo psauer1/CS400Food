@@ -22,7 +22,7 @@ import java.util.Random;
  */
 public class BPTree<K extends Comparable<K>, V> implements BPTreeADT<K, V> {
 
-    // Root of the tree
+    	// Root of the tree
 	private Node root;
 
 	// Branching factor is the number of children nodes
@@ -63,18 +63,18 @@ public class BPTree<K extends Comparable<K>, V> implements BPTreeADT<K, V> {
 
 		if (isEmpty()) {
 			LeafNode newRoot = new LeafNode();
-			newRoot.insert(key, value);
+			newRoot.keys.add(key);
+			newRoot.values.add(value);
+			List<V> vals = new ArrayList<V>();
+			vals.add(value);
+			newRoot.kvPairs.put(key, vals);
 			leaves.add(newRoot);
 			this.root = newRoot;
 		} else {
 			for (LeafNode leaf : leaves) {
 				if (leaf.getFirstLeafKey().compareTo(key) >= 0) {
-					if (leaf.keys.get(leaf.keys.size() - 1).compareTo(key) <= 0) {
-						if (leaf.isOverflow()) {
-							leaf.split();
-						} else {
-							leaf.insert(key, value);
-						}
+					if (leaf.keys.get(branchingFactor - 1).compareTo(key) <= 0) {
+						leaf.insert(key, value);
 						return;
 					} 
 				}
@@ -167,7 +167,7 @@ public class BPTree<K extends Comparable<K>, V> implements BPTreeADT<K, V> {
          * Package constructor
          */
         Node() {
-            // TODO : Complete
+        
         	keys = new ArrayList<K>();
         }
         
@@ -239,7 +239,7 @@ public class BPTree<K extends Comparable<K>, V> implements BPTreeADT<K, V> {
          * @see BPTree.Node#getFirstLeafKey()
          */
         K getFirstLeafKey() {
-            // TODO : Complete
+            
             return keys.get(0);
         }
         
@@ -248,7 +248,7 @@ public class BPTree<K extends Comparable<K>, V> implements BPTreeADT<K, V> {
          * @see BPTree.Node#isOverflow()
          */
         boolean isOverflow() {
-            // TODO : Complete
+            
         	int maxSize = branchingFactor - 1;
         	if (keys.size() == maxSize)
         		return true;
@@ -260,12 +260,22 @@ public class BPTree<K extends Comparable<K>, V> implements BPTreeADT<K, V> {
          * @see BPTree.Node#insert(java.lang.Comparable, java.lang.Object)
          */
 	void insert(K key, V value) {
-		for (int i = 0; i < keys.size(); i++) {
-			if (keys.get(i).compareTo(key) >= 0) {
-				keys.add(i, key);
-			}
-		}
+		
+		boolean toSplit = false;
+		boolean lastItem = false;
 		if (isOverflow()) {
+			toSplit = true;
+		}
+		for (int i = 0; i < keys.size(); i++) {
+			if (key.compareTo(keys.get(i)) < 0) {
+				lastItem = true;
+				keys.add(i, key);
+				break;
+			}
+		} if (toSplit) {
+			if (lastItem) {
+				keys.add(key);
+			}
 			split();
 		}
 	}
@@ -275,31 +285,26 @@ public class BPTree<K extends Comparable<K>, V> implements BPTreeADT<K, V> {
          * @see BPTree.Node#split()
          */
 	Node split() {
-		int splitIndex = (keys.size()) / 2;
-		K splitKey = keys.get(splitIndex);
-
-		// right split
-		InternalNode sibling = new InternalNode();
-		sibling.keys = keys.subList(splitIndex, keys.size());
-		sibling.children = children.subList(splitIndex, children.size());
-
-		// fix this node
-		children = children.subList(0, splitIndex);
-		keys = keys.subList(splitIndex, keys.size());
-
-		// promote splitKey to parent node
-		InternalNode parent = getParent((InternalNode) root, this);
-		for (int i = 0; i < parent.keys.size(); i++) {
-			if (parent.keys.get(i).compareTo(splitKey) >= 0) {
-				parent.children.add(i, sibling);
-			}
-		}
-		if (parent.isOverflow()) {
-			parent.keys.add(splitKey);
-			parent.split();
-		}
-
-		return sibling;
+		
+		int splitIndex = keys.size() / 2;
+			K splitKey = keys.get(splitIndex);
+       		InternalNode parent = getParent((InternalNode)root, this);
+    		if (parent != null) {
+    			splitKey = keys.remove(splitIndex);
+    			root = parent;
+    			parent.insert(splitKey, null);
+    		} else {
+        		InternalNode sibling = new InternalNode(); // split this node into two
+        		K parentKey = keys.remove(splitIndex);
+        		sibling.keys = keys.subList(splitIndex, keys.size());
+        		keys = keys.subList(0, splitIndex);
+        		parent = new InternalNode();
+        		parent.children.add(this);
+        		parent.children.add(sibling);
+        		parent.keys.add(parentKey);
+        		root = parent;
+    		}
+    		return this;
 	}
         
         /**
@@ -387,12 +392,15 @@ public class BPTree<K extends Comparable<K>, V> implements BPTreeADT<K, V> {
 		if (isOverflow()) {
 			toSplit = true;
 		}
+		int valueIndex = 0;
 		for (int i = 0; i < keys.size(); i++) {
-			if (key.compareTo(keys.get(i)) == 0) {
+			if (key.compareTo(keys.get(i)) == 0) { 
 				List<V> curVals = kvPairs.get(key);
 				kvPairs.remove(key);
 				curVals.add(value);
 				kvPairs.put(key, curVals);
+				valueIndex += (curVals.size() - 1);
+				values.add(valueIndex, value);
 				break;
 			} else if (key.compareTo(keys.get(i)) < 0) {
 				keys.add(i, key);
@@ -403,12 +411,18 @@ public class BPTree<K extends Comparable<K>, V> implements BPTreeADT<K, V> {
 				break;
 			}
 		} if (toSplit) {
+			if (!kvPairs.get(key).contains(value)) {
+				List<V> curVals = kvPairs.get(key);
+				kvPairs.remove(key);
+				curVals.add(value);
+				kvPairs.put(key, curVals);
+				keys.add(key);
+				values.add(value);
+			}
 			split();
 		}
         }
-        
-
-        
+       
         /**
          * (non-Javadoc)
          * @see BPTree.Node#split()
@@ -428,10 +442,17 @@ public class BPTree<K extends Comparable<K>, V> implements BPTreeADT<K, V> {
     		// connect this node to new right node
     		next = rightSplit;
     		rightSplit.previous = this;
-    		
-    		InternalNode parent = getParent((InternalNode)root, this);
+    		InternalNode parent = null;
+    		if (this.equals(root)) {
+    			parent = new InternalNode();
+    			parent.children.add(this);
+    			parent.children.add(rightSplit);
+    		} else {
+    			parent = getParent((InternalNode)root, this);
+    			parent.children.add(splitIndex, rightSplit);
+    		}
+    		root = parent;
     		parent.insert(splitKey, null);
-    		parent.children.add(splitIndex, rightSplit);
     		return this;
         }
         
