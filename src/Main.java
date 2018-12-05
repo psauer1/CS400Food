@@ -45,6 +45,42 @@ public class Main extends Application {
 		 * frame
 		 */
 
+		// Welcome stage
+		Stage welcomeStage = new Stage();
+		welcomeStage.setTitle("Welcome");
+		
+		VBox welcomeRoot = new VBox();
+		welcomeRoot.setPadding(new Insets(0, 0, 10, 0));
+		welcomeRoot.prefWidthProperty().bind(welcomeStage.widthProperty().multiply(1.0));
+		
+		Label titleLabel = new Label("   All The Right Food In All The Right Places");
+		titleLabel.setPadding(new Insets(0, 0, 30, 0));
+		titleLabel.setFont(new Font("Calisto MT", 24));
+		welcomeRoot.getChildren().add(titleLabel);
+		
+		Label instruction01 = new Label("		How to use the Meal Analysis:");
+		instruction01.setPadding(new Insets(0, 0, 30, 0));
+		instruction01.setFont(new Font("Calisto MT", 18));
+		welcomeRoot.getChildren().add(instruction01);
+		
+		Label instruction02 = new Label("		1. Add foods using the right planel");
+		instruction02.setPadding(new Insets(0, 0, 30, 0));
+		instruction02.setFont(new Font("Calisto MT", 16));
+		welcomeRoot.getChildren().add(instruction02);
+		
+		Label instruction03 = new Label("		2. Move food items from food list\n   to meal list using center controls");
+		instruction03.setPadding(new Insets(0, 0, 30, 0));
+		instruction03.setFont(new Font("Calisto MT", 16));
+		welcomeRoot.getChildren().add(instruction03);
+		
+		Label instruction04 = new Label("		3. Use the left panel to narrow down the food list");
+		instruction04.setPadding(new Insets(0, 0, 30, 0));
+		instruction04.setFont(new Font("Calisto MT", 16));
+		welcomeRoot.getChildren().add(instruction04);
+		
+		Scene welcomeScene = new Scene(welcomeRoot, 500, 250);
+		welcomeStage.setScene(welcomeScene);
+		
 		// Main horizontal frame
 		HBox root = new HBox(); // creates root HBox
 		root.setSpacing(10);
