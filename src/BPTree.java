@@ -88,39 +88,15 @@ public class BPTree<K extends Comparable<K>, V> implements BPTreeADT<K, V> {
      */
     @Override
     public List<V> rangeSearch(K key, String comparator) {
-        @Override
-	public List<V> rangeSearch(K key, String comparator) {
-		List<V> searched = new ArrayList<V>();
-		List<K> keyList = root.keys;
-		if (key == null) {
-			return searched; 
-		}
-		if (comparator.equals("==")) {
-			for (int i = 0; i < leaves.size(); i++) {
-				for (K thing : keyList) {
-					if (thing.equals(key)) {
-						searched.add(leaves.get(i).values.get(i));
-					}
-				}
+       List<V> range = new ArrayList<V>();
+		for (int i = 0; i < root.keys.size(); i++) {
+			if ((comparator.equals("==") && root.keys.get(i).compareTo(key) == 0) 
+				|| (comparator.equals(">=") && root.keys.get(i).compareTo(key) >= 0) 
+				|| (comparator.equals("<=") && root.keys.get(i).compareTo(key) <= 0)) {
+				range = root.rangeSearch(key, comparator);
 			}
 		}
-		if (comparator.equals("<=")) {
-			for (int i = 0; i < leaves.size(); i++) {
-				if ((leaves.get(i).keys.get(i)).compareTo(key) <= 0)  {
-					searched.add(leaves.get(i).values.get(i));
-				}			
-			}
-		}
-		if (comparator.equals(">=")) {
-			for (int i = 0; i < leaves.size(); i++) {
-				if (leaves.get(i).keys.get(i).compareTo(key) >= 0 )  {
-					searched.add(leaves.get(i).values.get(i));
-
-				}
-			}
-		}
-		return searched; 
-	}
+	return range;
     }
     
     
