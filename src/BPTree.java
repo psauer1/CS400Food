@@ -274,23 +274,33 @@ public class BPTree<K extends Comparable<K>, V> implements BPTreeADT<K, V> {
          * (non-Javadoc)
          * @see BPTree.Node#split()
          */
-		Node split() {
-			int splitIndex = (keys.size()) / 2;
-			K splitKey = keys.get(splitIndex);
+	Node split() {
+		int splitIndex = (keys.size()) / 2;
+		K splitKey = keys.get(splitIndex);
 
-			// right split
-			InternalNode sibling = new InternalNode();
-			sibling.keys = keys.subList(splitIndex, keys.size());
-			sibling.children = children.subList(splitIndex, children.size());
+		// right split
+		InternalNode sibling = new InternalNode();
+		sibling.keys = keys.subList(splitIndex, keys.size());
+		sibling.children = children.subList(splitIndex, children.size());
 
-			// fix this node
-			children = children.subList(0, splitIndex);
-			keys = keys.subList(splitIndex, keys.size());
+		// fix this node
+		children = children.subList(0, splitIndex);
+		keys = keys.subList(splitIndex, keys.size());
 
-			// promote splitKey to parent node
-
-			return sibling;
+		// promote splitKey to parent node
+		InternalNode parent = getParent((InternalNode) root, this);
+		for (int i = 0; i < parent.keys.size(); i++) {
+			if (parent.keys.get(i).compareTo(splitKey) >= 0) {
+				parent.children.add(i, sibling);
+			}
 		}
+		if (parent.isOverflow()) {
+			parent.keys.add(splitKey);
+			parent.split();
+		}
+
+		return sibling;
+	}
         
         /**
 	 * (non-Javadoc)
