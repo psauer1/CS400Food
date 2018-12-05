@@ -452,13 +452,30 @@ public class BPTree<K extends Comparable<K>, V> implements BPTreeADT<K, V> {
          * @see BPTree.Node#rangeSearch(Comparable, String)
          */
         List<V> rangeSearch(K key, String comparator) {
-            for (int i = 0; i < keys.size(); i++) {
-            		if (keys.get(i).equals(comparator)) {
-            			return values;
-            		}
-            }
-            return null;
-        }
+			List<V> nodeVals = new ArrayList<V>();
+			if (comparator.equals("==")) {
+				for (int i = 0; i < keys.size(); i++) {
+					if (keys.get(i).equals(key)) {
+						nodeVals.add(values.get(i));
+					} 
+				}
+			}
+			if (comparator.equals("<=")) {
+				for (int i = 0; i < keys.size(); i++) {
+					if (keys.get(i).compareTo(key) <= 0) {
+						nodeVals.add(values.get(i));
+					} 
+				}
+			}
+			if (comparator.equals(">=")) {
+				for (int i = 0; i < keys.size(); i++) {
+					if (keys.get(i).compareTo(key) >= 0) {
+						nodeVals.add(values.get(i));
+					} 
+				}
+			}
+			return nodeVals; 
+		}
         
     } // End of class LeafNode
     
