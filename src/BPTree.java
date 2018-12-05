@@ -344,15 +344,19 @@ public class BPTree<K extends Comparable<K>, V> implements BPTreeADT<K, V> {
         // Reference to the previous leaf node
         LeafNode previous;
         
+	HashMap<K, List<V>> kvPairs;
+	    
         /**
          * Package constructor
          */
         LeafNode() {
-            super();
-            values = new ArrayList<V>();
-            next = null;
-            previous = null;
-        }
+			
+		super();
+	        values = new ArrayList<V>();
+	        next = null;
+	        previous = null;
+	        kvPairs = new HashMap<K, List<V>>();
+		}
         
         
         /**
@@ -379,15 +383,29 @@ public class BPTree<K extends Comparable<K>, V> implements BPTreeADT<K, V> {
          * @see BPTree.Node#insert(Comparable, Object)
          */
         void insert(K key, V value) {
-				for (int i = 0; i < keys.size(); i++) {
-				if (keys.get(i).compareTo(key) >= 0) {
+		
+		if (!isOverflow()) {
+			for (int i = 0; i < keys.size(); i++) {
+				if (key.compareTo(keys.get(i)) == 0) {
+					List<V> curVals = kvPairs.get(key);
+					kvPairs.remove(key);
+					curVals.add(value);
+					kvPairs.put(key, curVals);
+					return;
+				} else if (key.compareTo(keys.get(i)) < 0) {
 					keys.add(i, key);
 					values.add(i, value);
+					List<V> pairVals = new ArrayList<V>();
+					pairVals.add(value);
+					kvPairs.put(key, pairVals);
+					return;
 				}
 			}
-			if (isOverflow()) {
-				split();
-			}
+		} else {
+			keys.add(key);
+			values.add(value);
+			split();
+		}
         }
         
 
@@ -397,19 +415,24 @@ public class BPTree<K extends Comparable<K>, V> implements BPTreeADT<K, V> {
          * @see BPTree.Node#split()
          */
         Node split() {
-        		int splitIndex = keys.size() / 2;
-        		
-        		// split this node into right
-        		LeafNode rightSplit = new LeafNode();
-        		rightSplit.keys = keys.subList(splitIndex, keys.size());
-        		keys = keys.subList(0, keys.size());
-        		
-        		// connect this node to new right node
-        		next = rightSplit;
-        		rightSplit.previous = this;
-        		
-        		// promote key.get(splitIndex) to internalNode
-            
+		
+        	int splitIndex = keys.size() / 2;
+    		
+    		// split this node into right
+    		LeafNode rightSplit = new LeafNode();
+    		rightSplit.keys = keys.subList(splitIndex, keys.size());
+    		rightSplit.values = values.subList(splitIndex, keys.size());
+    		keys = keys.subList(0, keys.size());
+    		values = values.subList(0, splitIndex);
+    		InternalNode parent = getParent((InternalNode)root, this);
+    		parent.children.add(rightSplit);
+    		
+    		// connect this node to new right node
+    		next = rightSplit;
+    		rightSplit.previous = this;
+    		
+    		// promote key.get(splitIndex) to internalNode
+    		return rightSplit;
         		
             return rightSplit;
         }
