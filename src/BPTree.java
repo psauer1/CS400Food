@@ -314,13 +314,23 @@ public class BPTree<K extends Comparable<K>, V> implements BPTreeADT<K, V> {
 		}
         
         /**
-         * (non-Javadoc)
-         * @see BPTree.Node#rangeSearch(java.lang.Comparable, java.lang.String)
-         */
-        List<V> rangeSearch(K key, String comparator) {
-            // TODO : Complete
-            return null;
-        }
+	 * (non-Javadoc)
+	 * 
+	 * @see BPTree.Node#rangeSearch(java.lang.Comparable, java.lang.String)
+	 */
+	List<V> rangeSearch(K key, String comparator) {
+		List<V> range = new ArrayList<V>();
+		for (int i = 0; i < keys.size(); i++) {
+			if ((comparator.equals("==") && keys.get(i).compareTo(key) == 0) 
+				|| (comparator.equals(">=") && keys.get(i).compareTo(key) >= 0) 
+				|| (comparator.equals("<=") && keys.get(i).compareTo(key) <= 0)) {
+				for (Node child : children) {
+					range = child.rangeSearch(key, comparator);
+				}
+			}
+		}
+		return range;
+	}
     
     } // End of class InternalNode
     
