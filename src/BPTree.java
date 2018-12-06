@@ -37,7 +37,6 @@ public class BPTree<K extends Comparable<K>, V> implements BPTreeADT<K, V> {
 	 * @param branchingFactor
 	 */
 	public BPTree(int branchingFactor) {
-
 		if (branchingFactor <= 2) {
 			throw new IllegalArgumentException("Illegal branching factor: " + branchingFactor);
 		}
@@ -46,7 +45,6 @@ public class BPTree<K extends Comparable<K>, V> implements BPTreeADT<K, V> {
 	}
 
 	public boolean isEmpty() {
-
 		if (root == null) {
 			return true;
 		}
@@ -79,7 +77,7 @@ public class BPTree<K extends Comparable<K>, V> implements BPTreeADT<K, V> {
 					if (leaf.keys.get(branchingFactor - 1).compareTo(key) >= 0) {
 						leaf.insert(key, value);
 						return;
-					} else { // if key would be the largest
+					} else { // if key is larger than all existing
 						
 					}
 				}
@@ -93,10 +91,10 @@ public class BPTree<K extends Comparable<K>, V> implements BPTreeADT<K, V> {
      */
     @Override
     public List<V> rangeSearch(K key, String comparator) {
-     List<V> range = new ArrayList<V>();
+	    List<V> range = new ArrayList<V>();
 	    if (key == null) {
 		return range; 
-		}
+	    }
 		for (int i = 0; i < root.keys.size(); i++) {
 			if ((comparator.equals("==") && root.keys.get(i).compareTo(key) == 0) 
 				|| (comparator.equals(">=") && root.keys.get(i).compareTo(key) >= 0) 
@@ -104,7 +102,7 @@ public class BPTree<K extends Comparable<K>, V> implements BPTreeADT<K, V> {
 				range = root.rangeSearch(key, comparator);
 			}
 		}
-	return range;
+	    return range;
     }
     
     
@@ -145,7 +143,6 @@ public class BPTree<K extends Comparable<K>, V> implements BPTreeADT<K, V> {
     
 	@SuppressWarnings("unchecked")
 	private InternalNode getParent(InternalNode current, LeafNode leaf) {
-		
 		for (Node child : current.children) {
 			if (child.keys.get(0).compareTo(leaf.getFirstLeafKey()) < 0) {
 				return getParent((InternalNode)child, leaf);
