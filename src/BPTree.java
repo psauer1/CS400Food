@@ -29,7 +29,7 @@ public class BPTree<K extends Comparable<K>, V> implements BPTreeADT<K, V> {
 	// for internal nodes of the tree
 	private int branchingFactor;
 
-	private LinkedList<LeafNode> leaves;
+	private LinkedList<LeafNode> leaves; // list of all leaves
 
 	/**
 	 * Public constructor
@@ -43,7 +43,11 @@ public class BPTree<K extends Comparable<K>, V> implements BPTreeADT<K, V> {
 		this.branchingFactor = branchingFactor;
 		leaves = new LinkedList<LeafNode>();
 	}
-
+	
+	/**
+	 * Checks if this BPTree is empty.
+	 * @return true if empty, false if not
+	 */
 	public boolean isEmpty() {
 		if (root == null) {
 			return true;
@@ -78,7 +82,7 @@ public class BPTree<K extends Comparable<K>, V> implements BPTreeADT<K, V> {
 						leaf.insert(key, value);
 						return;
 					} else { // if key is larger than all existing
-						
+						leaf.insert(key, value);
 					}
 				}
 			}
@@ -95,13 +99,13 @@ public class BPTree<K extends Comparable<K>, V> implements BPTreeADT<K, V> {
 	    if (key == null) {
 		return range; 
 	    }
-		for (int i = 0; i < root.keys.size(); i++) {
-			if ((comparator.equals("==") && root.keys.get(i).compareTo(key) == 0) 
-				|| (comparator.equals(">=") && root.keys.get(i).compareTo(key) >= 0) 
-				|| (comparator.equals("<=") && root.keys.get(i).compareTo(key) <= 0)) {
+	    for (int i = 0; i < root.keys.size(); i++) {
+		    if ((comparator.equals("==") && root.keys.get(i).compareTo(key) == 0) 
+			|| (comparator.equals(">=") && root.keys.get(i).compareTo(key) >= 0) 
+			|| (comparator.equals("<=") && root.keys.get(i).compareTo(key) <= 0)) {
 				range = root.rangeSearch(key, comparator);
-			}
-		}
+		    }
+	    }
 	    return range;
     }
     
@@ -389,38 +393,33 @@ public class BPTree<K extends Comparable<K>, V> implements BPTreeADT<K, V> {
          * @see BPTree.Node#insert(Comparable, Object)
          */
         void insert(K key, V value) {
-		
-		boolean toSplit = false;
-		if (isOverflow()) {
-			toSplit = true;
-		}
 		int valueIndex = 0;
 		for (int i = 0; i < keys.size(); i++) {
-			if (key.compareTo(keys.get(i)) == 0) { 
+			if (key.compareTo(keys.get(i)) == 0) { // if duplicate key
+				// add key and value to hashmap, update hashmap
 				List<V> curVals = kvPairs.get(key);
 				kvPairs.remove(key);
 				curVals.add(value);
 				kvPairs.put(key, curVals);
-				valueIndex += (curVals.size() - 1);
+				// update field(s)
+				valueIndex = (curVals.size() - 1);
 				values.add(valueIndex, value);
 				break;
 			} else if (key.compareTo(keys.get(i)) < 0) {
+				// update fields
 				keys.add(i, key);
 				values.add(i, value);
+				// update hashmap
 				List<V> pairVals = new ArrayList<V>();
 				pairVals.add(value);
 				kvPairs.put(key, pairVals);
 				break;
-			}
-		} if (toSplit) {
-			if (!kvPairs.get(key).contains(value)) {
-				List<V> curVals = kvPairs.get(key);
-				kvPairs.remove(key);
-				curVals.add(value);
-				kvPairs.put(key, curVals);
+			} else if (i == keys.size() - 1) { // key is larger than all existing
 				keys.add(key);
 				values.add(value);
 			}
+		} 
+		if (isOverflow()) {
 			split();
 		}
         }
@@ -430,32 +429,39 @@ public class BPTree<K extends Comparable<K>, V> implements BPTreeADT<K, V> {
          * @see BPTree.Node#split()
          */
         Node split() {
-		
-        	int splitIndex = keys.size() / 2;
-    		K splitKey = keys.get(splitIndex);
-    		LeafNode rightSplit = new LeafNode(); // split this node into two
-    		rightSplit.keys = keys.subList(splitIndex, keys.size());
-    		keys = keys.subList(0, keys.size());
-    		for (K keySplit : rightSplit.keys) {
-    			List<V> siblingVals = kvPairs.remove(keySplit);
-    			rightSplit.kvPairs.put(keySplit, siblingVals);
-    			rightSplit.values.addAll(siblingVals);
-    		}
-    		// connect this node to new right node
-    		next = rightSplit;
-    		rightSplit.previous = this;
-    		InternalNode parent = null;
-    		if (this.equals(root)) {
-    			parent = new InternalNode();
-    			parent.children.add(this);
-    			parent.children.add(rightSplit);
-    		} else {
-    			parent = getParent((InternalNode)root, this);
-    			parent.children.add(splitIndex, rightSplit);
-    		}
-    		root = parent;
-    		parent.insert(splitKey, null);
-    		return this;
+		int splitIndex = keys.size() / 2;
+		K splitKey = keys.get(splitIndex);
+		// split this node into two
+		LeafNode rightSplit = new LeafNode(); 
+		rightSplit.keys = keys.subList(splitIndex, keys.size());
+		keys = keys.subList(0, keys.size());
+		// update hashmap and list of values
+		for (K keySplit : rightSplit.keys) {
+			List<V> siblingVals = kvPairs.remove(keySplit);
+			rightSplit.kvPairs.put(keySplit, siblingVals);
+			rightSplit.values.addAll(siblingVals);
+		}
+		// connect this node to new right node
+		next = rightSplit;
+		rightSplit.previous = this;
+
+		InternalNode parent = new InternalNode();
+		if (this.equals(root)) {
+			parent.children.add(this);
+			parent.children.add(rightSplit);
+			parent.keys.add(splitKey);
+			root = parent;
+		} else { // this is an InternalNode, depends on InternalNode insert implementation
+			parent = getParent((InternalNode)root, this);
+			// add key to parent list at correct index
+			parent.keys.add(0, splitKey);
+			// add this and rightSplit to parent's children at correct index
+			parent.children.add(0, this);
+			parent.children.add(1, rightSplit);
+
+		}
+		parent.insert(splitKey, null);
+		return rightSplit;
         }
         
         /**
