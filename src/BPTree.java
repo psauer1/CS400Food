@@ -437,20 +437,17 @@ public class BPTree<K extends Comparable<K>, V> implements BPTreeADT<K, V> {
 	    			root = parent;
 	    		} else { // this is an InternalNode, depends on InternalNode insert implementation
 	    			parent = getParent((InternalNode)root, this);
-	    			
-	    			// add key to parent list at correct index, might be done in InternalNode insert
+	    			parent.insert(splitKey, null);
+	    			// add this and rightSplit to parent's children at correct index
 	    			for (int i = 0; i < parent.keys.size(); i++) {
-	    				if (splitKey.compareTo(parent.keys.get(i)) < 0) {
-	    					parent.keys.add(i, splitKey);
+	    				if (parent.keys.get(i).compareTo(splitKey) <= 0) {
+	    					parent.children.add(i, this);
+	    	    				parent.children.add(i+1, rightSplit);
+	    	    				break;
 	    				}
 	    			}
-	    			
-	    			// add this and rightSplit to parent's children at correct index
-	    			parent.children.add(0, this);
-	    			parent.children.add(1, rightSplit);
 	    			// MAKE SURE ALL LEAVES CONNECTED
 	    		}
-	    		parent.insert(splitKey, null);
 	    		return rightSplit;
         }
         
