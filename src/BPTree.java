@@ -145,6 +145,12 @@ public class BPTree<K extends Comparable<K>, V> implements BPTreeADT<K, V> {
         return sb.toString();
     }
     
+	/** 
+	 * Finds parent of Node searchParent
+	 * @param current node pointer
+	 * @param searchParent node to find parent of
+	 * @return parent
+	 */
 	@SuppressWarnings("unchecked")
 	private InternalNode getParent(InternalNode current, LeafNode leaf) {
 		for (Node child : current.children) {
