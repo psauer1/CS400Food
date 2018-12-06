@@ -254,11 +254,7 @@ public class BPTree<K extends Comparable<K>, V> implements BPTreeADT<K, V> {
          * @see BPTree.Node#isOverflow()
          */
         boolean isOverflow() {
-            
-        	int maxSize = branchingFactor - 1;
-        	if (keys.size() == maxSize)
-        		return true;
-            return false;
+            return keys.size() == branchingFactor;
         }
         
         /**
@@ -360,13 +356,12 @@ public class BPTree<K extends Comparable<K>, V> implements BPTreeADT<K, V> {
          * Package constructor
          */
         LeafNode() {
-			
 		super();
-	        values = new ArrayList<V>();
-	        next = null;
-	        previous = null;
-	        kvPairs = new HashMap<K, List<V>>();
-		}
+		values = new ArrayList<V>();
+		next = null;
+		previous = null;
+		kvPairs = new HashMap<K, List<V>>();
+	}
         
         
         /**
@@ -382,10 +377,7 @@ public class BPTree<K extends Comparable<K>, V> implements BPTreeADT<K, V> {
          * @see BPTree.Node#isOverflow()
          */
         boolean isOverflow() {
-            if (keys.size() >= branchingFactor - 1) {
-            	return true;
-            }
-            return false;
+            return keys.size() == branchingFactor;
         }
         
         /**
