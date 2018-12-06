@@ -245,7 +245,6 @@ public class BPTree<K extends Comparable<K>, V> implements BPTreeADT<K, V> {
          * @see BPTree.Node#getFirstLeafKey()
          */
         K getFirstLeafKey() {
-            
             return keys.get(0);
         }
         
@@ -262,22 +261,15 @@ public class BPTree<K extends Comparable<K>, V> implements BPTreeADT<K, V> {
          * @see BPTree.Node#insert(java.lang.Comparable, java.lang.Object)
          */
 	void insert(K key, V value) {
-		
-		boolean toSplit = false;
-		boolean lastItem = false;
-		if (isOverflow()) {
-			toSplit = true;
-		}
 		for (int i = 0; i < keys.size(); i++) {
 			if (key.compareTo(keys.get(i)) < 0) {
-				lastItem = true;
 				keys.add(i, key);
 				break;
-			}
-		} if (toSplit) {
-			if (lastItem) {
+			} else if (i == keys.size() - 1) {
 				keys.add(key);
 			}
+		} 
+		if (isOverflow()) {
 			split();
 		}
 	}
@@ -421,39 +413,45 @@ public class BPTree<K extends Comparable<K>, V> implements BPTreeADT<K, V> {
          * @see BPTree.Node#split()
          */
         Node split() {
-		int splitIndex = keys.size() / 2;
-		K splitKey = keys.get(splitIndex);
-		// split this node into two
-		LeafNode rightSplit = new LeafNode(); 
-		rightSplit.keys = keys.subList(splitIndex, keys.size());
-		keys = keys.subList(0, keys.size());
-		// update hashmap and list of values
-		for (K keySplit : rightSplit.keys) {
-			List<V> siblingVals = kvPairs.remove(keySplit);
-			rightSplit.kvPairs.put(keySplit, siblingVals);
-			rightSplit.values.addAll(siblingVals);
-		}
-		// connect this node to new right node
-		next = rightSplit;
-		rightSplit.previous = this;
-
-		InternalNode parent = new InternalNode();
-		if (this.equals(root)) {
-			parent.children.add(this);
-			parent.children.add(rightSplit);
-			parent.keys.add(splitKey);
-			root = parent;
-		} else { // this is an InternalNode, depends on InternalNode insert implementation
-			parent = getParent((InternalNode)root, this);
-			// add key to parent list at correct index
-			parent.keys.add(0, splitKey);
-			// add this and rightSplit to parent's children at correct index
-			parent.children.add(0, this);
-			parent.children.add(1, rightSplit);
-
-		}
-		parent.insert(splitKey, null);
-		return rightSplit;
+			int splitIndex = keys.size() / 2;
+	    		K splitKey = keys.get(splitIndex);
+	    		// split this node into two
+	    		LeafNode rightSplit = new LeafNode(); 
+	    		rightSplit.keys = keys.subList(splitIndex, keys.size());
+	    		keys = keys.subList(0, keys.size());
+	    		// update hashmap and list of values
+	    		for (K keySplit : rightSplit.keys) {
+	    			List<V> siblingVals = kvPairs.remove(keySplit);
+	    			rightSplit.kvPairs.put(keySplit, siblingVals);
+	    			rightSplit.values.addAll(siblingVals);
+	    		}
+	    		// connect this node to new right node
+	    		next = rightSplit;
+	    		rightSplit.previous = this;
+	    		
+	    		InternalNode parent = new InternalNode();
+	    		if (this.equals(root)) {
+	    			parent.children.add(this);
+	    			parent.children.add(rightSplit);
+	    			parent.keys.add(splitKey);
+	    			root = parent;
+	    		} else { // this is an InternalNode, depends on InternalNode insert implementation
+	    			parent = getParent((InternalNode)root, this);
+	    			
+	    			// add key to parent list at correct index, might be done in InternalNode insert
+	    			for (int i = 0; i < parent.keys.size(); i++) {
+	    				if (splitKey.compareTo(parent.keys.get(i)) < 0) {
+	    					parent.keys.add(i, splitKey);
+	    				}
+	    			}
+	    			
+	    			// add this and rightSplit to parent's children at correct index
+	    			parent.children.add(0, this);
+	    			parent.children.add(1, rightSplit);
+	    			// MAKE SURE ALL LEAVES CONNECTED
+	    		}
+	    		parent.insert(splitKey, null);
+	    		return rightSplit;
         }
         
         /**
