@@ -60,23 +60,28 @@ public class BPTree<K extends Comparable<K>, V> implements BPTreeADT<K, V> {
 	 */
 	@Override
 	public void insert(K key, V value) {
-
 		if (isEmpty()) {
+			// create root
 			LeafNode newRoot = new LeafNode();
+			
+			// insert this key's info
 			newRoot.keys.add(key);
 			newRoot.values.add(value);
-			List<V> vals = new ArrayList<V>();
-			vals.add(value);
-			newRoot.kvPairs.put(key, vals);
+			newRoot.kvPairs.put(key, newRoot.values);
+			
+			// update fields
 			leaves.add(newRoot);
-			this.root = newRoot;
+			root = newRoot;
 		} else {
 			for (LeafNode leaf : leaves) {
-				if (leaf.getFirstLeafKey().compareTo(key) >= 0) {
-					if (leaf.keys.get(branchingFactor - 1).compareTo(key) <= 0) {
+				// check that key belongs in this leaf according to its range of keys
+				if (leaf.getFirstLeafKey().compareTo(key) <= 0) {
+					if (leaf.keys.get(branchingFactor - 1).compareTo(key) >= 0) {
 						leaf.insert(key, value);
 						return;
-					} 
+					} else { // if key would be the largest
+						
+					}
 				}
 			}
 		}
