@@ -8,6 +8,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.Timeout;
 
+import javafx.scene.Node;
+
 public class TestBPTree {
 	@Rule
 	public Timeout timeLimit = new Timeout(2000, TimeUnit.MILLISECONDS);
@@ -34,9 +36,9 @@ public class TestBPTree {
 		bpTree.insert(20, "carrot");
 		bpTree.insert(1, "pizza");
 		System.out.println("rangeSearch List: " + bpTree.rangeSearch(15, "<=")); 
-		assertTrue(bpTree.rangeSearch(15, ">=").size() == 2);
-	}
+		assertTrue(bpTree.rangeSearch(15, "<=").size() == 1);
 
+	}
 	@Test
 	public void test04firstSplit() {
 		BPTree<Integer, String> bpTree = new BPTree<Integer, String>(4);
@@ -44,7 +46,7 @@ public class TestBPTree {
 		bpTree.insert(3, "carrot");
 		bpTree.insert(16, "pizza");
 		bpTree.insert(20, "Corona");
-		assertTrue(bpTree.root.keys(0).size() == 1); 
+		assertTrue(bpTree.returnAllNodeKeys(bpTree.getRoot()).size() == 1); 
 	}
 
-}
+} 
