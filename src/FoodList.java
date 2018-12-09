@@ -1,4 +1,3 @@
-package application;
 
 import java.util.*;
 
@@ -49,6 +48,7 @@ public class FoodList {
 		}
 	}
 
+
 	/**
 	 * Search through names that match a given input string
 	 * 
@@ -75,6 +75,18 @@ public class FoodList {
 		subTree.insertAllFood(searchList.toArray(new Food[searchList.size()]));
 		return subTree;
 	}
+
+	public Food[] getNameRange(String nameKey){
+		ArrayList<Food> nameList = new ArrayList<Food>(name.values());
+		System.out.println(nameList.toString());
+		ArrayList<Food> finalNames = new ArrayList<>();
+		for(Food item : nameList){
+			if(item.getName().contains(nameKey)) finalNames.add(item);
+		}
+
+		return finalNames.toArray(new Food[finalNames.size()]);
+	}
+
 
 	/**
 	 * Returns items in a given collection

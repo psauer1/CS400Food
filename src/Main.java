@@ -1,5 +1,4 @@
 
-import com.guigarage.flatterfx.FlatterFX;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -12,7 +11,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import com.guigarage.flatterfx.*;
 
 
 import java.io.File;
@@ -38,8 +36,7 @@ public class Main extends Application {
 	 */
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		FlatterFX.style();
-		FlatterFX.style(FlatterInputType.TOUCH);
+
 		FoodList all = new FoodList(); // creating background data for GUI
 		AtomicReference<FoodList> display = new AtomicReference<>(new FoodList()); // dipslays food options to user
 		AtomicReference<FoodList> menu = new AtomicReference<>(new FoodList()); // displays meal to user
