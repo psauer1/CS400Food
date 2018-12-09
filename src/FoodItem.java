@@ -16,7 +16,7 @@ public class FoodItem {
 	private String id;
 
 	// Map of nutrients and value.
-	private HashMap<String, Double> nutrients;
+	private HashMap<String, Double> nutrients = new HashMap<>();
 
 	/**
 	 * Constructor
@@ -39,7 +39,7 @@ public class FoodItem {
 		addNutrient("calories",cal);
 		addNutrient("fat",fat);
 		addNutrient("protein",protein);
-		addNutrient("carb",carb);
+		addNutrient("carbs",carb);
 		addNutrient("fiber",fiber);
 
 	}
@@ -83,7 +83,7 @@ public class FoodItem {
 		addNutrient("calories",cal);
 		addNutrient("fat",fat);
 		addNutrient("protein",protein);
-		addNutrient("carb",carb);
+		addNutrient("carbs",carb);
 		addNutrient("fiber",fiber);
 
 	}
@@ -100,7 +100,7 @@ public class FoodItem {
 	}
 
 	public double getCarb() {
-		return nutrients.get("carb");
+		return nutrients.get("carbs");
 	}
 
 	public double getFiber() {

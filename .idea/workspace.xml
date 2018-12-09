@@ -1,19 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="Layout update">
-      <change afterPath="$PROJECT_DIR$/src/FoodData.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/FoodDataADT.java" afterDir="false" />
+    <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="Changed to FoodItem and FoodData">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TeamFood/Food.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TeamFood/FoodItem.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TeamFood/FoodList.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TeamFood/Main.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Food.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FoodData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/FoodData.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/FoodItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/FoodItem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/FoodList.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/todo" beforeDir="false" afterPath="$PROJECT_DIR$/todo" afterDir="false" />
     </list>
     <ignored path="JavaFxApplication.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -141,14 +133,14 @@
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="dummy" value="16" />
-          <entry key="java" value="999" />
-          <entry key="txt" value="13" />
+          <entry key="java" value="1977" />
+          <entry key="txt" value="50" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JAVA" value="999" />
-          <entry key="PLAIN_TEXT" value="29" />
+          <entry key="JAVA" value="1977" />
+          <entry key="PLAIN_TEXT" value="66" />
         </counts>
       </usages-collector>
     </session>
@@ -179,8 +171,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/FoodData.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1064">
-              <caret line="122" selection-start-line="122" selection-end-line="122" />
+            <state relative-caret-position="142">
+              <caret line="76" column="12" selection-start-line="76" selection-start-column="12" selection-end-line="79" selection-end-column="9" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#3130#3131#0" expanded="true" />
@@ -188,15 +180,6 @@
                 <element signature="e#3741#3742#0" expanded="true" />
                 <element signature="e#3768#3769#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/FoodDataADT.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="717">
-              <caret line="99" column="31" selection-start-line="99" selection-end-line="100" />
             </state>
           </provider>
         </entry>
@@ -223,10 +206,13 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="655">
-              <caret line="561" column="36" lean-forward="true" selection-start-line="540" selection-start-column="12" selection-end-line="561" selection-end-column="36" />
+            <state relative-caret-position="429">
+              <caret line="505" column="74" selection-start-line="505" selection-start-column="74" selection-end-line="505" selection-end-column="74" />
               <folding>
                 <element signature="imports" expanded="true" />
+                <element signature="e#20364#20372#0" expanded="true" />
+                <element signature="e#32832#32833#0" expanded="true" />
+                <element signature="e#32851#32852#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -235,8 +221,20 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/BPTree.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="189">
-              <caret line="350" column="4" selection-start-line="350" selection-start-column="4" selection-end-line="350" selection-end-column="4" />
+            <state relative-caret-position="1059">
+              <caret line="402" column="4" selection-start-line="402" selection-start-column="4" selection-end-line="402" selection-end-column="4" />
+              <folding>
+                <element signature="e#3129#3130#0" expanded="true" />
+                <element signature="e#3148#3149#0" expanded="true" />
+                <element signature="e#5556#5557#0" expanded="true" />
+                <element signature="e#5575#5576#0" expanded="true" />
+                <element signature="e#7247#7248#0" expanded="true" />
+                <element signature="e#7293#7294#0" expanded="true" />
+                <element signature="e#8053#8054#0" expanded="true" />
+                <element signature="e#8095#8096#0" expanded="true" />
+                <element signature="e#8225#8226#0" expanded="true" />
+                <element signature="e#8286#8287#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -244,8 +242,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/FoodItem.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="492">
-              <caret line="108" lean-forward="true" selection-start-line="108" selection-end-line="108" />
+            <state relative-caret-position="-96">
+              <caret line="18" column="62" selection-start-line="18" selection-start-column="62" selection-end-line="18" selection-end-column="62" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#1472#1473#0" expanded="true" />
@@ -266,7 +264,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$USER_HOME$/Downloads/foodItems.csv">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3360">
+            <state relative-caret-position="147">
               <caret line="224" column="48" selection-start-line="224" selection-start-column="48" selection-end-line="224" selection-end-column="48" />
             </state>
           </provider>
@@ -307,10 +305,10 @@
         <option value="$PROJECT_DIR$/src/DataSourceReader.java" />
         <option value="$PROJECT_DIR$/src/Food.java" />
         <option value="$PROJECT_DIR$/src/FoodList.java" />
-        <option value="$PROJECT_DIR$/src/FoodItem.java" />
-        <option value="$PROJECT_DIR$/src/Main.java" />
         <option value="$PROJECT_DIR$/src/FoodDataTest.java" />
+        <option value="$PROJECT_DIR$/src/FoodItem.java" />
         <option value="$PROJECT_DIR$/src/FoodData.java" />
+        <option value="$PROJECT_DIR$/src/Main.java" />
       </list>
     </option>
   </component>
@@ -373,7 +371,7 @@
     <property name="OverrideImplement.combined" value="false" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1544391748967" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1544395047370" />
     <property name="dynamic.classpath" value="false" />
     <property name="extract.method.default.visibility" value="private" />
     <property name="recentsLimit" value="5" />
@@ -501,7 +499,7 @@
       <workItem from="1359379250712" duration="1302000" />
       <workItem from="1543340786443" duration="1840000" />
       <workItem from="1543944565624" duration="11061000" />
-      <workItem from="1544384985550" duration="5779000" />
+      <workItem from="1544384985550" duration="8862000" />
     </task>
     <task id="LOCAL-00001" summary="Added FoodList">
       <created>1543946126220</created>
@@ -545,17 +543,24 @@
       <option name="project" value="LOCAL" />
       <updated>1544385135676</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Changed to FoodItem and FoodData">
+      <created>1544391806436</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1544391806436</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="19982000" />
+    <option name="totallyTimeSpent" value="23065000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1680" height="976" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.6703755" visible="true" weight="0.24847375" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.6703755" visible="true" weight="0.24847375" />
       <window_info id="Structure" order="1" weight="0.25" />
       <window_info id="Favorites" order="2" />
       <window_info id="Designer" order="3" />
@@ -564,7 +569,7 @@
       <window_info id="Capture Tool" order="6" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32918552" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.3284091" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.3280543" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -639,7 +644,8 @@
     <MESSAGE value="Added the ability to add food to gui" />
     <MESSAGE value="Added the ability to add food and sort" />
     <MESSAGE value="Layout update" />
-    <option name="LAST_COMMIT_MESSAGE" value="Layout update" />
+    <MESSAGE value="Changed to FoodItem and FoodData" />
+    <option name="LAST_COMMIT_MESSAGE" value="Changed to FoodItem and FoodData" />
   </component>
   <component name="antWorkspaceConfiguration">
     <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
@@ -679,59 +685,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/Downloads/foodItems.csv">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3360">
-          <caret line="224" column="48" selection-start-line="224" selection-start-column="48" selection-end-line="224" selection-end-column="48" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/FoodItem.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="88">
           <caret line="8" column="3" lean-forward="true" selection-start-line="8" selection-start-column="3" selection-end-line="8" selection-end-column="3" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/sample/sample.fxml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="7" column="11" selection-start-line="7" selection-start-column="11" selection-end-line="7" selection-end-column="11" />
-        </state>
-      </provider>
-      <provider editor-type-id="JavaFX-Scene-Builder" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/BPTree.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="189">
-          <caret line="350" column="4" selection-start-line="350" selection-start-column="4" selection-end-line="350" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/FoodItem.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="492">
-          <caret line="108" lean-forward="true" selection-start-line="108" selection-end-line="108" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#1472#1473#0" expanded="true" />
-            <element signature="e#1490#1491#0" expanded="true" />
-            <element signature="e#1209#1210#0" expanded="true" />
-            <element signature="e#1227#1228#0" expanded="true" />
-            <element signature="e#1391#1392#0" expanded="true" />
-            <element signature="e#1409#1410#0" expanded="true" />
-            <element signature="e#1595#1596#0" expanded="true" />
-            <element signature="e#1610#1611#0" expanded="true" />
-            <element signature="e#2336#2337#0" expanded="true" />
-            <element signature="e#2368#2369#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/sample/Controller.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="2" column="25" selection-start-line="2" selection-start-column="25" selection-end-line="2" selection-end-column="25" />
         </state>
       </provider>
     </entry>
@@ -749,10 +706,22 @@
         </state>
       </provider>
     </entry>
-    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_191.jdk/Contents/Home/src.zip!/java/io/File.java">
+    <entry file="file://$PROJECT_DIR$/BPTree.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="188">
-          <caret line="276" selection-start-line="276" selection-end-line="276" />
+        <state relative-caret-position="1059">
+          <caret line="402" column="4" selection-start-line="402" selection-start-column="4" selection-end-line="402" selection-end-column="4" />
+          <folding>
+            <element signature="e#3129#3130#0" expanded="true" />
+            <element signature="e#3148#3149#0" expanded="true" />
+            <element signature="e#5556#5557#0" expanded="true" />
+            <element signature="e#5575#5576#0" expanded="true" />
+            <element signature="e#7247#7248#0" expanded="true" />
+            <element signature="e#7293#7294#0" expanded="true" />
+            <element signature="e#8053#8054#0" expanded="true" />
+            <element signature="e#8095#8096#0" expanded="true" />
+            <element signature="e#8225#8226#0" expanded="true" />
+            <element signature="e#8286#8287#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -763,10 +732,59 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$USER_HOME$/Downloads/foodItems.csv">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="147">
+          <caret line="224" column="48" selection-start-line="224" selection-start-column="48" selection-end-line="224" selection-end-column="48" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_191.jdk/Contents/Home/src.zip!/java/io/File.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="188">
+          <caret line="276" selection-start-line="276" selection-end-line="276" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/sample/sample.fxml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="7" column="11" selection-start-line="7" selection-start-column="11" selection-end-line="7" selection-end-column="11" />
+        </state>
+      </provider>
+      <provider editor-type-id="JavaFX-Scene-Builder" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/sample/Controller.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" column="25" selection-start-line="2" selection-start-column="25" selection-end-line="2" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/FoodItem.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-96">
+          <caret line="18" column="62" selection-start-line="18" selection-start-column="62" selection-end-line="18" selection-end-column="62" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1472#1473#0" expanded="true" />
+            <element signature="e#1490#1491#0" expanded="true" />
+            <element signature="e#1209#1210#0" expanded="true" />
+            <element signature="e#1227#1228#0" expanded="true" />
+            <element signature="e#1391#1392#0" expanded="true" />
+            <element signature="e#1409#1410#0" expanded="true" />
+            <element signature="e#1595#1596#0" expanded="true" />
+            <element signature="e#1610#1611#0" expanded="true" />
+            <element signature="e#2336#2337#0" expanded="true" />
+            <element signature="e#2368#2369#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/FoodData.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1064">
-          <caret line="122" selection-start-line="122" selection-end-line="122" />
+        <state relative-caret-position="142">
+          <caret line="76" column="12" selection-start-line="76" selection-start-column="12" selection-end-line="79" selection-end-column="9" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#3130#3131#0" expanded="true" />
@@ -779,10 +797,13 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="655">
-          <caret line="561" column="36" lean-forward="true" selection-start-line="540" selection-start-column="12" selection-end-line="561" selection-end-column="36" />
+        <state relative-caret-position="429">
+          <caret line="505" column="74" selection-start-line="505" selection-start-column="74" selection-end-line="505" selection-end-column="74" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#20364#20372#0" expanded="true" />
+            <element signature="e#32832#32833#0" expanded="true" />
+            <element signature="e#32851#32852#0" expanded="true" />
           </folding>
         </state>
       </provider>

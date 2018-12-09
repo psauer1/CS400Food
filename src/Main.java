@@ -1,4 +1,5 @@
 
+import com.sun.istack.internal.NotNull;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -12,9 +13,12 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 
+import javax.crypto.KeyGenerator;
+import javax.crypto.SecretKey;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -370,104 +374,136 @@ public class Main extends Application {
 		sortFood.setOnMouseClicked((event) -> {
 			// TODO: Add error response messages, error handlers to avoid crashes
 			FoodData subList = all;
+			ArrayList<String> searchList = new ArrayList<String>();
 
 			if (nameBox.isSelected()) { // if name box is checked
 				try {
-
-
+					// TODO: Call filter by name from FoodData class
+					// subList = filterByName(low.getText()); // gets list of names that contain the search string
 					subList = new FoodData(); // create a new food list
-					subList.insertAllFood(all.getNameRange(lowname.getText())); // if the search item contains
+					for(FoodItem nameFiltered:all.filterByName(lowname.getText())) { // if the search item contains
+						subList.addFoodItem(nameFiltered);
+					}
 				} catch (Exception e) {
 					errorStage.show();
 				}
 			}
-			
+
 			if (caloriesBox.isSelected()) { // if calories box is checked apply range criterion
 				try {
-					float low = Float.valueOf(lowCalories.getText());
-					float high = Float.valueOf(highCalories.getText());
-					
+					// Input safety checks
+					double low = Double.valueOf(lowCalories.getText());
+					double high = Double.valueOf(highCalories.getText());
+
 					if (low < 0)
 						throw new IllegalArgumentException();
 					if (low > high)
 						throw new IllegalArgumentException();
 					if (high < 0)
 						throw new IllegalArgumentException();
-					
-					subList = subList.getFoodRange("cal", low, high);
+
+					String lowString = String.valueOf(lowCalories.getText());
+					String highString = String.valueOf(highCalories.getText());
+
+					searchList.add("calories >= "+lowString);
+					searchList.add("calories <= "+highString);
 				} catch (Exception e) {
 					errorStage.show();
 				}
 			}
 			if (carbsBox.isSelected()) { // if carbs box is checked apply range criterion
 				try {
-					float low = Float.valueOf(lowcarbs.getText());
-					float high = Float.valueOf(highcarbs.getText());
-					
+					// Input safety checks
+					double low = Double.valueOf(lowcarbs.getText());
+					double high = Double.valueOf(highcarbs.getText());
+
 					if (low < 0)
 						throw new IllegalArgumentException();
 					if (low > high)
 						throw new IllegalArgumentException();
 					if (high < 0)
 						throw new IllegalArgumentException();
-					
-					subList = subList.getFoodRange("carbs", low, high);
+
+					String lowString = String.valueOf(lowcarbs.getText());
+					String highString = String.valueOf(highcarbs.getText());
+
+					searchList.add("carbs >= "+lowString);
+					searchList.add("carbs <= "+highString);
 				} catch (Exception e) {
 					errorStage.show();
 				}
 			}
 			if (fiberBox.isSelected()) { // if fiber box is checked apply range criterion
 				try {
-					float low = Float.valueOf(lowfiber.getText());
-					float high = Float.valueOf(highfiber.getText());
-					
+					// Input safety checks
+					double low = Double.valueOf(lowfiber.getText());
+					double high = Double.valueOf(highfiber.getText());
+
 					if (low < 0)
 						throw new IllegalArgumentException();
 					if (low > high)
 						throw new IllegalArgumentException();
 					if (high < 0)
 						throw new IllegalArgumentException();
-					
-					subList = subList.getFoodRange("fiber", low, high);
+
+					String lowString = String.valueOf(lowfiber.getText());
+					String highString = String.valueOf(highfiber.getText());
+
+					searchList.add("fiber >= "+lowString);
+					searchList.add("fiber <= "+highString);
 				} catch (Exception e) {
 					errorStage.show();
 				}
 			}
 			if (fatsBox.isSelected()) { // if fats box is checked apply range criterion
 				try {
-					float low = Float.valueOf(lowfats.getText());
-					float high = Float.valueOf(highfats.getText());
-					
+					// Input safety checks
+					double low = Double.valueOf(lowfats.getText());
+					double high = Double.valueOf(highfats.getText());
+
 					if (low < 0)
 						throw new IllegalArgumentException();
 					if (low > high)
 						throw new IllegalArgumentException();
 					if (high < 0)
 						throw new IllegalArgumentException();
-					
-					subList = subList.getFoodRange("fat", low, high);
+
+					String lowString = String.valueOf(lowfats.getText());
+					String highString = String.valueOf(highfats.getText());
+
+					searchList.add("fats >= "+lowString);
+					searchList.add("fats <= "+highString);
 				} catch (Exception e) {
 					errorStage.show();
 				}
 			}
 			if (proteinBox.isSelected()) { // if the protein box is checked apply range criterion
 				try {
-					float low = Float.valueOf(lowprotein.getText());
-					float high = Float.valueOf(highprotein.getText());
-					
+					// Input safety checks
+					double low = Double.valueOf(lowprotein.getText());
+					double high = Double.valueOf(highprotein.getText());
+
 					if (low < 0)
 						throw new IllegalArgumentException();
 					if (low > high)
 						throw new IllegalArgumentException();
 					if (high < 0)
 						throw new IllegalArgumentException();
-					
-					subList = subList.getFoodRange("protein", low, high); 
+
+					String lowString = String.valueOf(lowprotein.getText());
+					String highString = String.valueOf(highprotein.getText());
+
+					searchList.add("protein >= "+lowString);
+					searchList.add("protein <= "+highString);
 				} catch (Exception e) {
 					errorStage.show();
 				}
 			}
-			foodList.setItems(FXCollections.observableArrayList(subList.getNames())); // displays names from foodList
+			ArrayList<String> nameList = new ArrayList<>();
+			for(FoodItem temp : subList.filterByNutrients(searchList)){
+				nameList.add(temp.getName());
+			}
+			foodList.setItems(FXCollections.observableArrayList(nameList)); // displays names from foodList
 		});
 
 		// event handler for user adding an individual food
@@ -487,10 +523,15 @@ public class Main extends Application {
 				if (Float.valueOf(enterprotein.getText()) < 0)
 					throw new IllegalArgumentException();
 
-				FoodItem newFood = new FoodItem(entername.getText(), Float.valueOf(entercalories.getText()),
-						Float.valueOf(enterfats.getText()), Float.valueOf(enterprotein.getText()),
-						Float.valueOf(entercarbs.getText()), Float.valueOf(enterfiber.getText()));
-				all.insertFood(newFood);
+				KeyGenerator keyGen = KeyGenerator.getInstance("AES");
+				keyGen.init(256); // for example
+				String secretKey = keyGen.generateKey().toString();
+
+
+				FoodItem newFood = new FoodItem(secretKey,entername.getText(), Double.valueOf(entercalories.getText()),
+						Double.valueOf(enterfats.getText()), Double.valueOf(enterprotein.getText()),
+						Double.valueOf(entercarbs.getText()), Double.valueOf(enterfiber.getText()));
+				all.addFoodItem(newFood);
 				display.set(all);
 				foodList.setItems(FXCollections.observableArrayList(display.get().getNames())); // displays names from
 																								// foodList
@@ -503,7 +544,7 @@ public class Main extends Application {
 		addToMeal.setOnMouseClicked((event) -> {
 			// copy highlighted items from food list to the meal list
 			FoodItem addItem = all.getFood(foodList.getSelectionModel().getSelectedItem());
-			menu.get().insertFood(addItem);
+			menu.get().addFoodItem(addItem);
 			mealList.setItems(FXCollections.observableArrayList(menu.get().getNames())); // displays names from foodList
 		});
 
@@ -516,7 +557,7 @@ public class Main extends Application {
 		// remove from meal event handler
 		removeFromMeal.setOnMouseClicked((event) -> {
 			// remove highlighted items from meal list
-			menu.get().removeFood(mealList.getSelectionModel().getSelectedItem());
+			menu.get().removeFoodItem(mealList.getSelectionModel().getSelectedItem());
 			mealList.setItems(FXCollections.observableArrayList(menu.get().getNames())); // displays names from foodList
 
 		});
@@ -531,7 +572,7 @@ public class Main extends Application {
 																													// files
 			File chosen = fileChooser.showOpenDialog(primaryStage);
 			all.loadFoodItems(chosen.getAbsolutePath());
-			foodList.setItems(FXCollections.observableArrayList(all.getFNames()));
+			foodList.setItems(FXCollections.observableArrayList(all.getNames()));
 		});
 
 		// event handler for exporting the food list to a .csv file
@@ -539,37 +580,16 @@ public class Main extends Application {
 			FileChooser fileChooser = new FileChooser(); // choose location to save file
 			fileChooser.setTitle("Open Resource File");
 			File path = fileChooser.showSaveDialog(primaryStage);
-			PrintWriter pw = null;
-			try {
-				pw = new PrintWriter(path);
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			}
-
-			StringBuilder sb = new StringBuilder();
-			for (FoodItem item : all.getAll()) { // print to csv in valid read in format
-				sb.append(item);
-				sb.append(',');
-				sb.append(item.getName() + ',');
-				sb.append("calories," + item.getCal() + ',');
-				sb.append("fat," + item.getFat() + ',');
-				sb.append("carbohydrate," + item.getCarb() + ',');
-				sb.append("fiber," + item.getFiber() + ',');
-				sb.append("protein," + item.getProtein());
-				sb.append('\n');
-
-			}
-			pw.write(sb.toString());
-			pw.close();
+			all.saveFoodItems(path.getAbsolutePath());
 		});
 
 		// event handler for analyzing meal
 		analyzeMeal.setOnMouseClicked((event) -> {
-			Float[] data = { new Float(0), new Float(0), new Float(0), new Float(0), new Float(0) }; // array for
+			Double[] data = {(double) 0, (double) 0, (double) 0, (double) 0, (double) 0}; // array for
 																										// storing
 																										// nutrition
 																										// totals
-			for (FoodItem foodItem : menu.get().getAll()) {	// loop for summing all of the nutrition totals in meal list
+			for (FoodItem foodItem : menu.get().getAllFoodItems()) {	// loop for summing all of the nutrition totals in meal list
 				data[0] += foodItem.getCal();
 				data[1] += foodItem.getCarb();
 				data[2] += foodItem.getProtein();
