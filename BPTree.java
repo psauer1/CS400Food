@@ -28,6 +28,7 @@ public class BPTree<K extends Comparable<K>, V> implements BPTreeADT<K, V> {
 	// Branching factor is the number of children nodes
 	// for internal nodes of the tree
 	private int branchingFactor;
+	private int size; 
 
 	private LinkedList<LeafNode> leaves; // list of all leaves
 
@@ -42,6 +43,7 @@ public class BPTree<K extends Comparable<K>, V> implements BPTreeADT<K, V> {
 		}
 		this.branchingFactor = branchingFactor;
 		leaves = new LinkedList<LeafNode>();
+		size = 0; 
 	}
 	
 	/**
@@ -54,39 +56,64 @@ public class BPTree<K extends Comparable<K>, V> implements BPTreeADT<K, V> {
 		}
 		return false;
 	}
-
-	/**
+	
+	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see BPTreeADT#insert(java.lang.Object, java.lang.Object)
 	 */
 	@Override
 	public void insert(K key, V value) {
 		if (isEmpty()) {
-			// create root
+			//create root
 			LeafNode newRoot = new LeafNode();
-			
-			// insert this key's info
-			newRoot.keys.add(key);
-			newRoot.values.add(value);
-			newRoot.kvPairs.put(key, newRoot.values);
-			
-			// update fields
-			leaves.add(newRoot);
-			root = newRoot;
+
+			//insert this key's info
+			newRoot.keys.add(key); 
+			newRoot.values.add(value); 
+			newRoot.kvPairs.put(key,newRoot.values);
+
+			//update fields
+			leaves.add(newRoot); 
+			this.root = newRoot; 
+			size++; 
 		} else {
-			for (LeafNode leaf : leaves) {
-				// check that key belongs in this leaf according to its range of keys
-				if (leaf.getFirstLeafKey().compareTo(key) <= 0) {
-					if (leaf.keys.get(branchingFactor - 1).compareTo(key) >= 0) {
-						leaf.insert(key, value);
-						return;
-					} else { // if key is larger than all existing
-						leaf.insert(key, value);
+			insertHelper(key, value, root); 
+		}
+		size++; 
+	}
+
+	/**
+	 * 
+	 * @param key
+	 * @param value
+	 * @param node
+	 */
+	@SuppressWarnings("unchecked")
+	private void insertHelper(K key, V value, Node node) {
+		InternalNode compare = new InternalNode(); 
+		if (node.getClass().equals(compare.getClass())) { //Case where node is an internal node
+			for (int i = 0; i < node.keys.size(); i++) {
+				if (key.compareTo(node.keys.get(i)) < 0) {
+					insertHelper(key, value, ((InternalNode) node).children.get(i));
+					return; 
+				}  
+			}
+			insertHelper(key, value, ((InternalNode)node).children.get(branchingFactor));
+		} 	else { // Case where node is a leaf node
+			for (LeafNode leaf: leaves) {
+				if (key.compareTo(leaf.keys.get(leaf.keys.size() - 1)) < 0) {
+					if ((leaf.next == null) || (key.compareTo(leaf.next.getFirstLeafKey()) < 0)){
+						leaf.insert(key, value); 
+						return; 
 					}
 				}
 			}
 		}
+	}
+
+
+public int size() {
+		return size; 
 	}
     
     /**
