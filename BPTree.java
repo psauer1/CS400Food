@@ -28,7 +28,7 @@ public class BPTree<K extends Comparable<K>, V> implements BPTreeADT<K, V> {
 	// Branching factor is the number of children nodes
 	// for internal nodes of the tree
 	private int branchingFactor;
-	private int size; 
+	private int size; // number of values 
 
 	private LinkedList<LeafNode> leaves; // list of all leaves
 
@@ -83,7 +83,7 @@ public class BPTree<K extends Comparable<K>, V> implements BPTreeADT<K, V> {
 	}
 
 	/**
-	 * 
+	 * Recursive helper method that inserts key value pair.
 	 * @param key
 	 * @param value
 	 * @param node
@@ -111,8 +111,11 @@ public class BPTree<K extends Comparable<K>, V> implements BPTreeADT<K, V> {
 		}
 	}
 
-
-public int size() {
+	/**
+	 * Getter for size of bp tree (number of values)
+	 * @return size of bp tree
+	 */
+	public int size() {
 		return size; 
 	}
     
