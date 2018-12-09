@@ -348,7 +348,8 @@ public class BPTree<K extends Comparable<K>, V> implements BPTreeADT<K, V> {
         // Reference to the previous leaf node
         LeafNode previous;
         
-	HashMap<K, List<V>> kvPairs;
+	HashMap<K, List<V>> kvPairs; // chained buckets implementation
+				// contains list of values for duplicate keys
 	    
         /**
          * Package constructor
