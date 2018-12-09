@@ -1,5 +1,5 @@
-package application;
 
+import com.guigarage.flatterfx.FlatterFX;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -7,16 +7,20 @@ import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import com.guigarage.flatterfx.*;
+
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.Scanner;
 import java.util.concurrent.atomic.AtomicReference;
+
 
 /**
  * Main class creates and pops up the Graphical User Interface for the meal
@@ -34,6 +38,8 @@ public class Main extends Application {
 	 */
 	@Override
 	public void start(Stage primaryStage) throws Exception {
+		FlatterFX.style();
+		FlatterFX.style(FlatterInputType.TOUCH);
 		FoodList all = new FoodList(); // creating background data for GUI
 		AtomicReference<FoodList> display = new AtomicReference<>(new FoodList()); // dipslays food options to user
 		AtomicReference<FoodList> menu = new AtomicReference<>(new FoodList()); // displays meal to user
@@ -45,58 +51,32 @@ public class Main extends Application {
 		 * frame
 		 */
 
-		// Welcome stage
-		Stage welcomeStage = new Stage();
-		welcomeStage.setTitle("Welcome");
-		
-		VBox welcomeRoot = new VBox();
-		welcomeRoot.setPadding(new Insets(0, 0, 10, 0));
-		welcomeRoot.prefWidthProperty().bind(welcomeStage.widthProperty().multiply(1.0));
-		
-		Label titleLabel = new Label("   All The Right Food In All The Right Places");
-		titleLabel.setPadding(new Insets(0, 0, 30, 0));
-		titleLabel.setFont(new Font("Calisto MT", 24));
-		welcomeRoot.getChildren().add(titleLabel);
-		
-		Label instruction01 = new Label("		How to use the Meal Analysis:");
-		instruction01.setPadding(new Insets(0, 0, 30, 0));
-		instruction01.setFont(new Font("Calisto MT", 18));
-		welcomeRoot.getChildren().add(instruction01);
-		
-		Label instruction02 = new Label("		1. Add foods using the right planel");
-		instruction02.setPadding(new Insets(0, 0, 30, 0));
-		instruction02.setFont(new Font("Calisto MT", 16));
-		welcomeRoot.getChildren().add(instruction02);
-		
-		Label instruction03 = new Label("		2. Move food items from food list\n   to meal list using center controls");
-		instruction03.setPadding(new Insets(0, 0, 30, 0));
-		instruction03.setFont(new Font("Calisto MT", 16));
-		welcomeRoot.getChildren().add(instruction03);
-		
-		Label instruction04 = new Label("		3. Use the left panel to narrow down the food list");
-		instruction04.setPadding(new Insets(0, 0, 30, 0));
-		instruction04.setFont(new Font("Calisto MT", 16));
-		welcomeRoot.getChildren().add(instruction04);
-		
-		Scene welcomeScene = new Scene(welcomeRoot, 500, 250);
-		welcomeStage.setScene(welcomeScene);
-		
 		// Main horizontal frame
 		HBox root = new HBox(); // creates root HBox
 		root.setSpacing(10);
 		root.setPadding(new Insets(15, 20, 10, 10));
 		root.prefHeightProperty().bind(primaryStage.heightProperty().multiply(0.9)); // sets the height parameters of
-																						// the HBox
-		VBox sort = new VBox(); // creates VBox for the sorting of the program
+
+		VBox options3 = new VBox();																				// the HBox
+		HBox options = new HBox(); // creates VBox for the sorting of the program
+		options.prefWidthProperty().bind(options3.widthProperty().multiply(1));
+		HBox options2 = new HBox(); // creates VBox for the sorting of the program
+		options2.prefWidthProperty().bind(options3.widthProperty().multiply(1));
+		options3.prefWidthProperty().bind(primaryStage.widthProperty().multiply(0.33));
+		options3.getChildren().add(options);
+		options3.getChildren().add(options2);
+
+
+		VBox sort = new VBox();
 		VBox analyze = new VBox(); // creates VBox for the main function of the program
 		VBox add = new VBox(); // creates VBox for adding food items to the program
 
 		// Sort food items vertical section
-		Label sortLabel = new Label("Sort Foods");
-		sortLabel.setPadding(new Insets(0, 0, 30, 0));
-		sortLabel.setFont(new Font("Arial", 24));
-		sort.getChildren().add(sortLabel); // add label to the sort VBox
-		sort.prefWidthProperty().bind(primaryStage.widthProperty().multiply(0.25));
+//		Label sortLabel = new Label("Sort Foods");
+//		sortLabel.setPadding(new Insets(0, 0, 30, 0));
+//		sortLabel.setFont(new Font("Arial", 24));
+//		sort.getChildren().add(sortLabel); // add label to the sort VBox
+		sort.prefWidthProperty().bind(primaryStage.widthProperty().multiply(0.33));
 
 		HBox name = new HBox(); // HBox for sorting by name
 		name.setPadding(new Insets(0, 0, 10, 0));
@@ -108,7 +88,7 @@ public class Main extends Application {
 		name.getChildren().add(nameBox); // adds check box to the HBox
 		name.getChildren().add(lowname); // adds text field for name to HBox
 		sort.getChildren().add(name); // adds the HBox to the sort VBox
-		sort.prefWidthProperty().bind(primaryStage.widthProperty().multiply(0.25));
+		sort.prefWidthProperty().bind(options.widthProperty().multiply(1));
 
 		HBox calories = new HBox(); // HBox for sorting by calories
 		calories.setPadding(new Insets(0, 0, 10, 0));
@@ -189,11 +169,11 @@ public class Main extends Application {
 		sort.getChildren().add(sortFood); // adds button to the sort VBox
 
 		// Meal analysis vertical section
-		Label analyzeLabel = new Label("Analyze Meal"); // creates button for Anaylzing the meal
-		analyzeLabel.setPadding(new Insets(0, 0, 30, 0));
-		analyzeLabel.setFont(new Font("Arial", 24));
-		analyze.getChildren().add(analyzeLabel); // adds the label to the analyze VBox
-		analyze.prefWidthProperty().bind(root.widthProperty().multiply(0.50));
+//		Label analyzeLabel = new Label("Analyze Meal"); // creates button for Anaylzing the meal
+//		analyzeLabel.setPadding(new Insets(0, 0, 30, 0));
+//		analyzeLabel.setFont(new Font("Arial", 24));
+//		analyze.getChildren().add(analyzeLabel); // adds the label to the analyze VBox
+		analyze.prefWidthProperty().bind(root.widthProperty().multiply(0.67));
 
 		HBox subAnalyze = new HBox(); // creates HBox within the HBox for analyzing the meal
 		subAnalyze.setPadding(new Insets(0, 0, 10, 0));
@@ -261,10 +241,10 @@ public class Main extends Application {
 		analyze.getChildren().add(analyzeMeal); // adds the analyze button HBox to the main analyze HBox
 
 		// Add food items vertical section
-		Label addLabel = new Label("Add Food"); // new label for add VBox
-		addLabel.setPadding(new Insets(0, 0, 30, 0));
-		addLabel.setFont(new Font("Arial", 24));
-		add.getChildren().add(addLabel); // add the label to the add VBox
+//		Label addLabel = new Label("Add Food"); // new label for add VBox
+//		addLabel.setPadding(new Insets(0, 0, 30, 0));
+//		addLabel.setFont(new Font("Arial", 24));
+//		add.getChildren().add(addLabel); // add the label to the add VBox
 		add.prefWidthProperty().bind(primaryStage.widthProperty().multiply(0.25));
 
 		HBox aname = new HBox(); // add name HBox
@@ -349,12 +329,23 @@ public class Main extends Application {
 		importFood.prefWidthProperty().bind(sort.widthProperty().multiply(1.0));
 		add.getChildren().add(importFood); // add import to add VBox
 
-		root.getChildren().add(sort); // add sort VBox to the main HBox
-		root.getChildren().add(analyze); // add analyze VBox to the main HBox
-		root.getChildren().add(add); // add add VBox to the main HBox
+		TitledPane sortPane = new TitledPane("Sort",sort);
+		TitledPane addPane = new TitledPane("Add",add);
+		sortPane.getStyleClass().add("danger");
+		addPane.getStyleClass().add("success");
+		sortPane.setCollapsible(true);
+		Accordion accordion = new Accordion();
+		accordion.getPanes().addAll(sortPane,addPane);
+		options3.getChildren().add(accordion);
 
-		Scene scene = new Scene(root, 1000, 500); // set scene with main HBox
+		TitledPane analyzePane = new TitledPane("Analyze",analyze);
+		analyzePane.getStyleClass().add("info");
+		analyzePane.setCollapsible(false);
+		root.getChildren().add(options3); // add sort VBox to the main HBox
+		root.getChildren().add(analyzePane); // add analyze VBox to the main HBox
 
+		Scene scene = new Scene(root, 800, 500); // set scene with main HBox
+		scene.getStylesheets().add("fx.css");
 		primaryStage.setTitle("ALL THE RIGHT FOOD IN ALL THE RIGHT PLACES");
 		primaryStage.setScene(scene); // set the scene on the primary stage
 		primaryStage.show(); // show primary stage
@@ -386,11 +377,10 @@ public class Main extends Application {
 
 			if (nameBox.isSelected()) { // if name box is checked
 				try {
-					if (all.getFood(lowname.getText()) == null)
-						throw new IllegalArgumentException();
+
 
 					subList = new FoodList(); // create a new food list
-					subList.insertFood(all.getFood(lowname.getText())); // if the search item contains
+					subList.insertAllFood(all.getNameRange(lowname.getText())); // if the search item contains
 				} catch (Exception e) {
 					errorStage.show();
 				}
