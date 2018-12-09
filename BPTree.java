@@ -194,9 +194,19 @@ public class BPTree<K extends Comparable<K>, V> implements BPTreeADT<K, V> {
 		return null;
 	}
 	
+	/**
+	 * Getter for root node.
+	 * @return root
+	 */
 	public Node getRoot() {
 		return root; 
 	}
+	
+	/**
+	 * Returns a list of all keys in a node.
+	 * @param node to find keys of
+	 * @return list of all keys
+	 */
 	public List<K> returnAllNodeKeys(Node node) {
 		List<K> nodesKeys = new ArrayList<K>(); 
 		for (int i = 0; i < node.keys.size(); i ++ ) {
