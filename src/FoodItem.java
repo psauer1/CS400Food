@@ -1,7 +1,9 @@
+package application;
+
 
 import java.util.ArrayList;
-		import java.util.HashMap;
-		import java.util.List;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * This class represents a food item with all its properties.
@@ -9,17 +11,16 @@ import java.util.ArrayList;
  * @author aka
  */
 public class FoodItem {
-	// The name of the food item.
-	private String name;
-
-	// The id of the food item.
-	private String id;
-
-	// Map of nutrients and value.
-	private HashMap<String, Double> nutrients = new HashMap<>();
+	
+	/*fields*/
+	
+	private String name;	// The name of the food item.
+	private String id;	// The id of the food item.
+	private HashMap<String, Double> nutrients;	// Map of nutrients and value.
 
 	/**
 	 * Constructor
+	 * 
 	 * @param name name of the food item
 	 * @param id unique id of the food item
 	 */
@@ -30,6 +31,7 @@ public class FoodItem {
 
 	/**
 	 * Constructor
+	 * 
 	 * @param name name of the food item
 	 * @param id unique id of the food item
 	 */
@@ -39,9 +41,8 @@ public class FoodItem {
 		addNutrient("calories",cal);
 		addNutrient("fat",fat);
 		addNutrient("protein",protein);
-		addNutrient("carbs",carb);
+		addNutrient("carb",carb);
 		addNutrient("fiber",fiber);
-
 	}
 
 	/**
@@ -74,21 +75,43 @@ public class FoodItem {
 	/**
 	 * Adds a nutrient and its value to this food.
 	 * If nutrient already exists, updates its value.
+	 * 
+	 * @param name, value
 	 */
 	public void addNutrient(String name, double value) {
 		nutrients.put(name,value);
 	}
 
+	/**
+	 * Adds the inputed nutritional values to the data structure
+	 * 
+	 * @param cal
+	 * @param fat
+	 * @param protein
+	 * @param carb
+	 * @param fiber
+	 */
 	public void addAllNutrients(double cal, double fat, double protein, double carb, double fiber){
 		addNutrient("calories",cal);
 		addNutrient("fat",fat);
 		addNutrient("protein",protein);
-		addNutrient("carbs",carb);
+		addNutrient("carb",carb);
 		addNutrient("fiber",fiber);
-
+	}
+	
+	/**
+	 * Returns the value of the given nutrient value for this food item
+	 * Returns 0 if food item is not found
+	 * 
+	 * @param name
+	 * @return
+	 */
+	public double getNutrientValue(String name) {
+		return nutrients.get(name);
 	}
 
 	/*accessors*/
+	
 	public double getCal() {
 		return nutrients.get("calories");
 	}
@@ -100,19 +123,10 @@ public class FoodItem {
 	}
 
 	public double getCarb() {
-		return nutrients.get("carbs");
+		return nutrients.get("carb");
 	}
 
 	public double getFiber() {
 		return nutrients.get("fiber");
 	}
-
-	/**
-	 * Returns the value of the given nutrient for this food item.
-	 * If not present, then returns 0.
-	 */
-	public double getNutrientValue(String name) {
-		return nutrients.get(name);
-	}
-
 }
