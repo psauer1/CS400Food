@@ -472,42 +472,32 @@ public class BPTree<K extends Comparable<K>, V> implements BPTreeADT<K, V> {
          * @see BPTree.Node#split()
          */
         Node split() {
-			int splitIndex = keys.size() / 2;
-	    		K splitKey = keys.get(splitIndex);
-	    		// split this node into two
-	    		LeafNode rightSplit = new LeafNode(); 
-	    		rightSplit.keys = keys.subList(splitIndex, keys.size());
-	    		keys = keys.subList(0, keys.size());
-	    		// update hashmap and list of values
-	    		for (K keySplit : rightSplit.keys) {
-	    			List<V> siblingVals = kvPairs.remove(keySplit);
-	    			rightSplit.kvPairs.put(keySplit, siblingVals);
-	    			rightSplit.values.addAll(siblingVals);
-	    		}
-	    		// connect this node to new right node
-	    		next = rightSplit;
-	    		rightSplit.previous = this;
-	    		
-	    		InternalNode parent = new InternalNode();
-	    		if (this.equals(root)) {
-	    			parent.children.add(this);
-	    			parent.children.add(rightSplit);
-	    			parent.keys.add(splitKey);
-	    			root = parent;
-	    		} else { // this is an InternalNode, depends on InternalNode insert implementation
-	    			parent = getParent((InternalNode)root, this);
-	    			parent.insert(splitKey, null);
-	    			// add this and rightSplit to parent's children at correct index
-	    			for (int i = 0; i < parent.keys.size(); i++) {
-	    				if (parent.keys.get(i).compareTo(splitKey) <= 0) {
-	    					parent.children.add(i, this);
-	    	    				parent.children.add(i+1, rightSplit);
-	    	    				break;
-	    				}
-	    			}
-	    			// MAKE SURE ALL LEAVES CONNECTED
-	    		}
-	    		return rightSplit;
+		
+		int splitIndex = keys.size() / 2;
+		K splitKey = keys.get(splitIndex);
+		LeafNode rightSplit = new LeafNode(); // split this node into two
+		for (int i = splitIndex; i < keys.size(); i++) {
+			rightSplit.keys.add(keys.get(i));
+			List<V> siblingVals = kvPairs.remove(keys.get(i));
+			values.removeAll(siblingVals);
+			rightSplit.kvPairs.put(keys.get(i), siblingVals);
+			rightSplit.values.addAll(siblingVals);
+		}
+		keys = keys.subList(splitIndex, keys.size());
+		// connect this node to new right node
+		next = rightSplit;
+		rightSplit.previous = this;
+		InternalNode parent = new InternalNode();
+		if (this.equals(root)) {
+			parent.children.add(this);
+			parent.children.add(rightSplit);
+		} else {
+			parent = getParent((InternalNode) root, this);
+			parent.children.add(splitIndex, rightSplit);
+		}
+		root = parent;
+		parent.insert(splitKey, null);
+		return this;
         }
         
         /**
