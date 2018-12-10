@@ -1,4 +1,4 @@
-import apple.laf.JRSUIUtils;
+package application;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -13,25 +13,21 @@ import java.util.*;
  */
 public class FoodData implements FoodDataADT<FoodItem> {
 
-    // List of all the food items.
-    private List<FoodItem> foodItemList = new ArrayList<>();
-
-    // Map of nutrients and their corresponding index
-    private HashMap<String, TreeMap<Double, FoodItem>> indexes = new HashMap<>();
-
+	/*fields*/
+	
+    private List<FoodItem> foodItemList = new ArrayList<>();	// List of all the food items.
+    private HashMap<String, TreeMap<Double, FoodItem>> indexes = new HashMap<>();	// Map of nutrients and their corresponding index
 
     /**
      * Public constructor
      */
     public FoodData() {
-
         indexes.put("calories", new TreeMap<Double, FoodItem>());
         indexes.put("protein", new TreeMap<Double, FoodItem>());
         indexes.put("carbs", new TreeMap<Double, FoodItem>());
         indexes.put("fat", new TreeMap<Double, FoodItem>());
         indexes.put("fiber", new TreeMap<Double, FoodItem>());
     }
-
 
     /*
      * (non-Javadoc)
@@ -66,7 +62,8 @@ public class FoodData implements FoodDataADT<FoodItem> {
                 addFoodItem(item);
             }
         }
-        scanner.close();    }
+        scanner.close();    
+    }
 
     /*
      * (non-Javadoc)
@@ -78,7 +75,6 @@ public class FoodData implements FoodDataADT<FoodItem> {
         for(FoodItem item : foodItemList){
             if(item.getName().contains(substring)) finalNames.add(item);
         }
-
         return finalNames;
     }
 
@@ -100,7 +96,6 @@ public class FoodData implements FoodDataADT<FoodItem> {
             else if(r[1].equals("<=")) {
                 subList = subList.getFoodRange(r[0], (double) -1.0, Double.valueOf(r[2]));
             }
-
         }
         return subList.getAllFoodItems();
     }
@@ -123,7 +118,12 @@ public class FoodData implements FoodDataADT<FoodItem> {
         return foodItemList;
     }
 
-    public List<String> getNames(){
+    /**
+     * Gets all of the names of the items in the food list
+     * 
+     * @return List<String>
+     */
+    public List<String> getNames() {
         ArrayList<String> names = new ArrayList<>();
         for(FoodItem nameItem:foodItemList){
             names.add(nameItem.getName());
@@ -131,12 +131,24 @@ public class FoodData implements FoodDataADT<FoodItem> {
         return names;
     }
 
+    /**
+     * Removes food item from food list
+     * 
+     * @param name
+     */
     public void removeFoodItem(String name){
         for(FoodItem food : foodItemList){
-            if(food.getName().equals(name)) foodItemList.remove(food);
+            if(food.getName().equals(name))
+            	foodItemList.remove(food);	// if the item name matches remove it
         }
     }
 
+    /**
+     * Gets the food item that matches the parameter name, throws an exception if there is not match
+     * 
+     * @param name
+     * @return FoodItem
+     */
     public FoodItem getFood(String name){
         for(FoodItem food : foodItemList){
             if(food.getName().equals(name)) return food;
@@ -144,6 +156,11 @@ public class FoodData implements FoodDataADT<FoodItem> {
         throw new NoSuchElementException();
     }
 
+    /**
+     * Creates an input for a file to be exported
+     * 
+     * @param filename
+     */
     public void saveFoodItems(String filename){
         File newCSV = new File(filename);
         PrintWriter pw = null;
@@ -169,9 +186,16 @@ public class FoodData implements FoodDataADT<FoodItem> {
         pw.close();
     }
 
-
+    /**
+     * Returns food items that satisfy the rules passed into the method
+     * 
+     * @param key
+     * @param low
+     * @param high
+     * @return
+     * @throws IllegalArgumentException
+     */
     private FoodData getFoodRange(String key, Double low, Double high) throws IllegalArgumentException {
-        // TODO: Add user input handling
         Collection<FoodItem> searchList = indexes.get(key).subMap(low, high).values();
         FoodData subTree = new FoodData();
         subTree.insertAllFood(searchList.toArray(new FoodItem[searchList.size()]));
@@ -180,7 +204,6 @@ public class FoodData implements FoodDataADT<FoodItem> {
 
     /**
      * Private helper
-     *
      * Inserts item all of the tree maps within the hash map
      *
      * @param item
@@ -194,11 +217,14 @@ public class FoodData implements FoodDataADT<FoodItem> {
         indexes.get("fiber").put(item.getFiber(), item);
     }
 
+    /**
+     * Inserts an array of food items into the data structure
+     * 
+     * @param items
+     */
     public void insertAllFood(FoodItem[] items) {
         for (FoodItem item : items) {
             putVals(item);
         }
     }
-
 }
-
