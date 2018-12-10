@@ -1,5 +1,5 @@
+package application;
 
-import com.sun.istack.internal.NotNull;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -51,7 +51,10 @@ public class Main extends Application {
 		 * frame
 		 */
 
-		// Main horizontal frame
+
+		/*
+		 * Main horizontal frame
+		 */
 		HBox root = new HBox(); // creates root HBox
 		root.setSpacing(10);
 		root.setPadding(new Insets(15, 20, 10, 10));
@@ -66,16 +69,10 @@ public class Main extends Application {
 		options3.getChildren().add(options);
 		options3.getChildren().add(options2);
 
-
-		VBox sort = new VBox();
-		VBox analyze = new VBox(); // creates VBox for the main function of the program
-		VBox add = new VBox(); // creates VBox for adding food items to the program
-
-		// Sort food items vertical section
-//		Label sortLabel = new Label("Sort Foods");
-//		sortLabel.setPadding(new Insets(0, 0, 30, 0));
-//		sortLabel.setFont(new Font("Arial", 24));
-//		sort.getChildren().add(sortLabel); // add label to the sort VBox
+		/*
+		 * Sort food items vertical section
+		 */
+		VBox sort = new VBox();	// creates VBox for sorting food items from food list
 		sort.prefWidthProperty().bind(primaryStage.widthProperty().multiply(0.33));
 
 		HBox name = new HBox(); // HBox for sorting by name
@@ -164,15 +161,14 @@ public class Main extends Application {
 		protein.getChildren().add(highprotein); // adds high end text field to HBox
 		sort.getChildren().add(protein); // adds the HBox to the the sort VBox
 
-		Button sortFood = new Button("Sort FoodItem"); // creates new button to Sort FoodItem
+		Button sortFood = new Button("Sort Food"); // creates new button to Sort FoodItem
 		sortFood.prefWidthProperty().bind(sort.widthProperty().multiply(1.0));
 		sort.getChildren().add(sortFood); // adds button to the sort VBox
 
-		// Meal analysis vertical section
-//		Label analyzeLabel = new Label("Analyze Meal"); // creates button for Anaylzing the meal
-//		analyzeLabel.setPadding(new Insets(0, 0, 30, 0));
-//		analyzeLabel.setFont(new Font("Arial", 24));
-//		analyze.getChildren().add(analyzeLabel); // adds the label to the analyze VBox
+		/*
+		 * Meal analysis vertical section
+		 */
+		VBox analyze = new VBox(); // creates VBox for the main function of the program
 		analyze.prefWidthProperty().bind(root.widthProperty().multiply(0.67));
 
 		HBox subAnalyze = new HBox(); // creates HBox within the HBox for analyzing the meal
@@ -186,7 +182,7 @@ public class Main extends Application {
 		buttons.prefWidthProperty().bind(subAnalyze.widthProperty().multiply(0.20));
 
 		// FoodItem list label
-		Label foodItemsLabel = new Label("FoodItem Items");
+		Label foodItemsLabel = new Label("Food Items");
 		foodItemsLabel.setPadding(new Insets(0, 0, 10, 0));
 		foodItemsLabel.setFont(new Font("Arial", 16));
 		foodItems.getChildren().add(foodItemsLabel);
@@ -240,11 +236,10 @@ public class Main extends Application {
 		analyze.getChildren().add(subAnalyze); // adds the sub-analyze HBox to the main analyze HBox
 		analyze.getChildren().add(analyzeMeal); // adds the analyze button HBox to the main analyze HBox
 
-		// Add food items vertical section
-//		Label addLabel = new Label("Add FoodItem"); // new label for add VBox
-//		addLabel.setPadding(new Insets(0, 0, 30, 0));
-//		addLabel.setFont(new Font("Arial", 24));
-//		add.getChildren().add(addLabel); // add the label to the add VBox
+		/*
+		 * Add food items vertical section
+		 */
+		VBox add = new VBox(); // creates VBox for adding food items to the program
 		add.prefWidthProperty().bind(primaryStage.widthProperty().multiply(0.25));
 
 		HBox aname = new HBox(); // add name HBox
@@ -321,56 +316,83 @@ public class Main extends Application {
 		add.getChildren().add(addFoodContain); // add food HBox to the add VBox
 		HBox exportFoodContain = new HBox(); // food contain HBox
 		exportFoodContain.setPadding(new Insets(0, 0, 10, 0));
-		Button exportFood = new Button("Export FoodItem"); // add food button
+		Button exportFood = new Button("Export Food"); // add food button
 		exportFood.prefWidthProperty().bind(sort.widthProperty().multiply(1.0));
 		exportFoodContain.getChildren().add(exportFood); // add food button to the add food HBox
 		add.getChildren().add(exportFoodContain); // add food HBox to the add VBox
-		Button importFood = new Button("Import FoodItem"); // import food button for reading in files
+		Button importFood = new Button("Import Food"); // import food button for reading in files
 		importFood.prefWidthProperty().bind(sort.widthProperty().multiply(1.0));
 		add.getChildren().add(importFood); // add import to add VBox
 
-		TitledPane sortPane = new TitledPane("Sort",sort);
-		TitledPane addPane = new TitledPane("Add",add);
-		sortPane.getStyleClass().add("danger");
-		addPane.getStyleClass().add("success");
-		sortPane.setCollapsible(true);
-		Accordion accordion = new Accordion();
-		accordion.getPanes().addAll(sortPane,addPane);
-		options3.getChildren().add(accordion);
+		TitledPane sortPane = new TitledPane("Sort Food Items",sort);	// creates drop down pane for sorting food
+		TitledPane addPane = new TitledPane("Add Food Items",add);	// creates drop down pane for adding food
+		sortPane.getStyleClass().add("danger");	// styles the pane
+		addPane.getStyleClass().add("success");	// styles the pane
+		sortPane.setCollapsible(true);	// creates collapsible aspect of the pane
+		Accordion accordion = new Accordion();	// creates accordion to contain the drop down panes
+		accordion.getPanes().addAll(sortPane,addPane);	// adds both drop down panes
+		options3.getChildren().add(accordion);	// adds accordion to the HBox
 
-		TitledPane analyzePane = new TitledPane("Analyze",analyze);
-		analyzePane.getStyleClass().add("info");
-		analyzePane.setCollapsible(false);
+		TitledPane analyzePane = new TitledPane("Analyze",analyze);	// creates pane for analyzing meal
+		analyzePane.getStyleClass().add("info");	// add style to the pane
+		analyzePane.setCollapsible(false);	// does not allow for collapsibility
 		root.getChildren().add(options3); // add sort VBox to the main HBox
 		root.getChildren().add(analyzePane); // add analyze VBox to the main HBox
 
 		Scene scene = new Scene(root, 800, 500); // set scene with main HBox
-		scene.getStylesheets().add("fx.css");
-		primaryStage.setTitle("ALL THE RIGHT FOOD IN ALL THE RIGHT PLACES");
+		scene.getStylesheets().add("fx.css");	// apply style sheet
+		primaryStage.setTitle("ALL THE RIGHT FOOD IN ALL THE RIGHT PLACES");	// set title for program
 		primaryStage.setScene(scene); // set the scene on the primary stage
 		primaryStage.show(); // show primary stage
 
+		
 		/*
 		 * Event handlers
 		 * 
 		 * Responds to the user interactions with the GUI
 		 */
 
-		// Generic error response
-		Stage errorStage = new Stage();
-		errorStage.setTitle("Error");
-		HBox errorRoot = new HBox();
-		errorRoot.setPadding(new Insets(0, 0, 10, 0));
-		errorRoot.prefWidthProperty().bind(errorStage.widthProperty().multiply(1.0));
-		Label errorLabel = new Label(
-				"     Invalid input\n   Valid inputs include:\n   > Zero or positive values\n   > floats or integers");
-		errorLabel.setPadding(new Insets(0, 0, 30, 0));
-		errorLabel.setFont(new Font("Arial", 18));
-		errorRoot.getChildren().add(errorLabel);
-		Scene errorScene = new Scene(errorRoot, 300, 200);
-		errorStage.setScene(errorScene);
+		
+		/*
+		 * Generic error response window
+		 * 
+		 * Displays whenever the user interacts with program in an incorrect way
+		 */
+		Stage errorStage = new Stage();	// creates new stage
+		errorStage.setTitle("Error");	// names the error stage
+		
+		VBox errorRoot = new VBox();	// creates root HBox for the error
+		errorRoot.setPadding(new Insets(0, 0, 10, 0));	// sets padding to root
+		errorRoot.prefWidthProperty().bind(errorStage.widthProperty().multiply(1.0));	// sets size of root
+		
+		Label errorLabel01 = new Label("   Invalid input");	// error message
+		errorLabel01.setPadding(new Insets(0, 0, 30, 0));
+		errorLabel01.setFont(new Font("Arial", 18));
+		errorRoot.getChildren().add(errorLabel01);
+		
+		Label errorLabel02 = new Label("   Valid inputs include:");	// error message
+		errorLabel02.setPadding(new Insets(0, 0, 30, 0));
+		errorLabel02.setFont(new Font("Arial", 18));
+		errorRoot.getChildren().add(errorLabel02);
+		
+		Label errorLabel03 = new Label("   - Zero or positive values");	// error message
+		errorLabel03.setPadding(new Insets(0, 0, 30, 0));
+		errorLabel03.setFont(new Font("Arial", 18));
+		errorRoot.getChildren().add(errorLabel03);
+		
+		Label errorLabel04 = new Label("   - Float, double, or integer");	// error message
+		errorLabel04.setPadding(new Insets(0, 0, 30, 0));
+		errorLabel04.setFont(new Font("Arial", 18));
+		errorRoot.getChildren().add(errorLabel04);
+				
+		Scene errorScene = new Scene(errorRoot, 300, 200);	// error message scene
+		errorStage.setScene(errorScene);	// set the scene on the error stage
 
-		// sort food query button
+		/*
+		 * Sort button event handler
+		 * 
+		 * Applies the criteria specified for each field, displays the error message if the user inputted invalid arguments
+		 */
 		sortFood.setOnMouseClicked((event) -> {
 			// TODO: Add error response messages, error handlers to avoid crashes
 			FoodData subList = all;
@@ -378,13 +400,11 @@ public class Main extends Application {
 
 			if (nameBox.isSelected()) { // if name box is checked
 				try {
-					// TODO: Call filter by name from FoodData class
-					// subList = filterByName(low.getText()); // gets list of names that contain the search string
 					subList = new FoodData(); // create a new food list
 					for(FoodItem nameFiltered:all.filterByName(lowname.getText())) { // if the search item contains
 						subList.addFoodItem(nameFiltered);
 					}
-				} catch (Exception e) {
+				} catch (Exception e) {	// error thrown from name input
 					errorStage.show();
 				}
 			}
@@ -407,7 +427,7 @@ public class Main extends Application {
 
 					searchList.add("calories >= "+lowString);
 					searchList.add("calories <= "+highString);
-				} catch (Exception e) {
+				} catch (Exception e) {	// error thrown from number input
 					errorStage.show();
 				}
 			}
@@ -429,7 +449,7 @@ public class Main extends Application {
 
 					searchList.add("carbs >= "+lowString);
 					searchList.add("carbs <= "+highString);
-				} catch (Exception e) {
+				} catch (Exception e) {	// error thrown from number input
 					errorStage.show();
 				}
 			}
@@ -451,7 +471,7 @@ public class Main extends Application {
 
 					searchList.add("fiber >= "+lowString);
 					searchList.add("fiber <= "+highString);
-				} catch (Exception e) {
+				} catch (Exception e) {	// error thrown from number input
 					errorStage.show();
 				}
 			}
@@ -473,7 +493,7 @@ public class Main extends Application {
 
 					searchList.add("fats >= "+lowString);
 					searchList.add("fats <= "+highString);
-				} catch (Exception e) {
+				} catch (Exception e) {	// error thrown from number input
 					errorStage.show();
 				}
 			}
@@ -495,7 +515,7 @@ public class Main extends Application {
 
 					searchList.add("protein >= "+lowString);
 					searchList.add("protein <= "+highString);
-				} catch (Exception e) {
+				} catch (Exception e) {	// error thrown from number input
 					errorStage.show();
 				}
 			}
@@ -506,7 +526,11 @@ public class Main extends Application {
 			foodList.setItems(FXCollections.observableArrayList(nameList)); // displays names from foodList
 		});
 
-		// event handler for user adding an individual food
+		/*
+		 * Event handler for user adding an individual food
+		 * 
+		 * Reads in the user inputs and creates a food item with the specified arguments, displays an error message if the user inputs an illegal argument
+		 */
 		addFood.setOnMouseClicked((event) -> {
 			try {
 				// valid inputs check for user input
@@ -523,11 +547,12 @@ public class Main extends Application {
 				if (Float.valueOf(enterprotein.getText()) < 0)
 					throw new IllegalArgumentException();
 
+				// Generate a unique key for sorting the user inputed food
 				KeyGenerator keyGen = KeyGenerator.getInstance("AES");
 				keyGen.init(256); // for example
 				String secretKey = keyGen.generateKey().toString();
 
-
+				// Create a new food item with inputs
 				FoodItem newFood = new FoodItem(secretKey,entername.getText(), Double.valueOf(entercalories.getText()),
 						Double.valueOf(enterfats.getText()), Double.valueOf(enterprotein.getText()),
 						Double.valueOf(entercarbs.getText()), Double.valueOf(enterfiber.getText()));
@@ -535,55 +560,73 @@ public class Main extends Application {
 				display.set(all);
 				foodList.setItems(FXCollections.observableArrayList(display.get().getNames())); // displays names from
 																								// foodList
-			} catch (Exception e) {
+			} catch (Exception e) {	// error message for invalid inputs
 				errorStage.show();
 			}
 		});
 
-		// add to meal event handler
+		/*
+		 * Add to meal button event handler
+		 * 
+		 * Moves the highlighted food items within the food list to the meal list
+		 */
 		addToMeal.setOnMouseClicked((event) -> {
-			// copy highlighted items from food list to the meal list
-			FoodItem addItem = all.getFood(foodList.getSelectionModel().getSelectedItem());
+			FoodItem addItem = all.getFood(foodList.getSelectionModel().getSelectedItem());	// copy highlighted items from food list to the meal list
 			menu.get().addFoodItem(addItem);
 			mealList.setItems(FXCollections.observableArrayList(menu.get().getNames())); // displays names from foodList
 		});
 
-		// event handler for clearing from the meal list
+		/*
+		 * Event handler for clear button
+		 * 
+		 * Removes all of the items from the meal list and displays an emtpy list
+		 */
 		clear.setOnMouseClicked((event) -> {
 			menu.set(new FoodData()); // create an empty list
 			mealList.setItems(FXCollections.observableArrayList(menu.get().getNames())); // displays names from foodList
 		});
 
-		// remove from meal event handler
+		/*
+		 * Remove button event handler
+		 * 
+		 * Removes highlighted items from the meal list, does not affect unselected items
+		 */
 		removeFromMeal.setOnMouseClicked((event) -> {
-			// remove highlighted items from meal list
-			menu.get().removeFoodItem(mealList.getSelectionModel().getSelectedItem());
+			menu.get().removeFoodItem(mealList.getSelectionModel().getSelectedItem());	// remove highlighted items from meal list
 			mealList.setItems(FXCollections.observableArrayList(menu.get().getNames())); // displays names from foodList
-
 		});
 
-		// event handler for importing food
+		/*
+		 * Event handler for import food button
+		 * 
+		 * Displays a file chooser for user to select a .csv file to import from
+		 */
 		importFood.setOnMouseClicked((event) -> {
 			FileChooser fileChooser = new FileChooser(); // generate file explorer for user
-			fileChooser.setTitle("Open Resource File");
-			fileChooser.setSelectedExtensionFilter(new FileChooser.ExtensionFilter("CSV files (*.csv)", "*.csv")); // only
-																													// accept
-																													// csv
-																													// files
-			File chosen = fileChooser.showOpenDialog(primaryStage);
-			all.loadFoodItems(chosen.getAbsolutePath());
-			foodList.setItems(FXCollections.observableArrayList(all.getNames()));
+			fileChooser.setTitle("Open Resource File");	// title file explorer
+			fileChooser.setSelectedExtensionFilter(new FileChooser.ExtensionFilter("CSV files (*.csv)", "*.csv"));	// only accepts .csv files
+			File chosen = fileChooser.showOpenDialog(primaryStage);	// creates file from chosen file
+			all.loadFoodItems(chosen.getAbsolutePath());	// Loads all of the items from file
+			foodList.setItems(FXCollections.observableArrayList(all.getNames()));	// display imported items in the food list
 		});
 
-		// event handler for exporting the food list to a .csv file
+		/*
+		 * Event handler for export food button
+		 * 
+		 * Takes all of the items in the food list and prints them into a .csv with the same format as input files
+		 */
 		exportFood.setOnMouseClicked((event) -> {
 			FileChooser fileChooser = new FileChooser(); // choose location to save file
-			fileChooser.setTitle("Open Resource File");
-			File path = fileChooser.showSaveDialog(primaryStage);
-			all.saveFoodItems(path.getAbsolutePath());
+			fileChooser.setTitle("Choose location to export file");	// title of file chooser
+			File path = fileChooser.showSaveDialog(primaryStage);	// create file for the given path
+			all.saveFoodItems(path.getAbsolutePath());	// save items with given file path
 		});
 
-		// event handler for analyzing meal
+		/*
+		 * Event handler for analyze button
+		 * 
+		 * Sums all of the food items nutritional values from the meal list and displays a new window with a summary
+		 */
 		analyzeMeal.setOnMouseClicked((event) -> {
 			Double[] data = {(double) 0, (double) 0, (double) 0, (double) 0, (double) 0}; // array for
 																										// storing
