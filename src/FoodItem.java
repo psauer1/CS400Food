@@ -1,4 +1,3 @@
-package application;
 
 
 import java.util.ArrayList;
@@ -16,7 +15,7 @@ public class FoodItem {
 	
 	private String name;	// The name of the food item.
 	private String id;	// The id of the food item.
-	private HashMap<String, Double> nutrients;	// Map of nutrients and value.
+	private HashMap<String, Double> nutrients = new HashMap<>();	// Map of nutrients and value.
 
 	/**
 	 * Constructor

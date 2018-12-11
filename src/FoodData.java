@@ -1,4 +1,3 @@
-package application;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -48,6 +47,12 @@ public class FoodData implements FoodDataADT<FoodItem> {
             Boolean valid = true;
             info[0]=scanner.next();
             info[1]=scanner.next();
+            if (info[0] == null || info[0].equals("")) { // check for valid inputs from parsing
+                valid = false;
+            }
+            if (info[1] == null || info[1].equals("")) { // check for valid inputs from parsing
+                valid = false;
+            }
             for (int i = 2; i < 7; i++) {
                 scanner.next();
                 info[i] = scanner.next().replaceAll("\\s+", "");
