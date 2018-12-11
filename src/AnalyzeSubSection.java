@@ -53,7 +53,7 @@ public class AnalyzeSubSection {
         foodList.setItems(items); // set items into the food list
         foodList.prefWidthProperty().bind(foodItems.widthProperty().multiply(1.0));
 
-        ListView<String> mealList = new ListView<String>(); // creates list for the meal
+        mealList = new ListView<String>(); // creates list for the meal
         ObservableList<String> itemsInMeal = FXCollections.observableArrayList(); // displays names
         // from menu
         // foodlist

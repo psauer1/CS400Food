@@ -1,4 +1,5 @@
 
+import com.sun.javaws.exceptions.InvalidArgumentException;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -110,6 +111,7 @@ public class Main extends Application {
 			// TODO: Add error response messages, error handlers to avoid crashes
 			FoodData subList = all;
 			ArrayList<String> searchList = new ArrayList<String>();
+			ErrorWindow sortErrorWindow = new ErrorWindow();
 
 			if (sortSection.nameBox.isSelected()) { // if name box is checked
 				try {
@@ -118,7 +120,8 @@ public class Main extends Application {
 						subList.addFoodItem(nameFiltered);
 					}
 				} catch (Exception e) {	// error thrown from name input
-					errorWindow.show();
+					sortErrorWindow.errorMessage(1,"Invalid Name Search Parameters");
+					sortErrorWindow.show();
 				}
 			}
 
@@ -141,7 +144,8 @@ public class Main extends Application {
 					searchList.add("calories >= "+lowString);
 					searchList.add("calories <= "+highString);
 				} catch (Exception e) {	// error thrown from number input
-					errorWindow.show();
+					sortErrorWindow.errorMessage(1,"Invalid Calories Search Parameters");
+					sortErrorWindow.show();
 				}
 			}
 			if (sortSection.carbsBox.isSelected()) { // if carbs box is checked apply range criterion
@@ -163,7 +167,8 @@ public class Main extends Application {
 					searchList.add("carbs >= "+lowString);
 					searchList.add("carbs <= "+highString);
 				} catch (Exception e) {	// error thrown from number input
-					errorWindow.show();
+					sortErrorWindow.errorMessage(1,"Invalid Carbs Search Parameters");
+					sortErrorWindow.show();
 				}
 			}
 			if (sortSection.fiberBox.isSelected()) { // if fiber box is checked apply range criterion
@@ -185,7 +190,8 @@ public class Main extends Application {
 					searchList.add("fiber >= "+lowString);
 					searchList.add("fiber <= "+highString);
 				} catch (Exception e) {	// error thrown from number input
-					errorWindow.show();
+					sortErrorWindow.errorMessage(1,"Invalid Fiber Search Parameters");
+					sortErrorWindow.show();
 				}
 			}
 			if (sortSection.fatsBox.isSelected()) { // if fats box is checked apply range criterion
@@ -207,7 +213,8 @@ public class Main extends Application {
 					searchList.add("fats >= "+lowString);
 					searchList.add("fats <= "+highString);
 				} catch (Exception e) {	// error thrown from number input
-					errorWindow.show();
+					sortErrorWindow.errorMessage(1,"Invalid Fats Search Parameters");
+					sortErrorWindow.show();
 				}
 			}
 			if (sortSection.proteinBox.isSelected()) { // if the protein box is checked apply range criterion
@@ -229,7 +236,8 @@ public class Main extends Application {
 					searchList.add("protein >= "+lowString);
 					searchList.add("protein <= "+highString);
 				} catch (Exception e) {	// error thrown from number input
-					errorWindow.show();
+					sortErrorWindow.errorMessage(1,"Invalid Protein Search Parameters");
+					sortErrorWindow.show();
 				}
 			}
 			ArrayList<String> nameList = new ArrayList<>();
@@ -245,24 +253,50 @@ public class Main extends Application {
 		 * Reads in the user inputs and creates a food item with the specified arguments, displays an error message if the user inputs an illegal argument
 		 */
 		addSection.addFood.setOnMouseClicked((event) -> {
+			ErrorWindow addErrorWindow = new ErrorWindow();
 			String message = "";
+			int type =-1;
 			try {
-				// valid inputs check for user input
-				if (addSection.entername.getText().length() == 0) {
-					message = "No Name Entered";
+				if (addSection.entercalories.getText() == null || addSection.entercalories.getText().trim().isEmpty() || addSection.entername.getText() == null || addSection.entername.getText().trim().isEmpty() || addSection.enterfats.getText() == null || addSection.enterfats.getText().trim().isEmpty() || addSection.entercarbs.getText() == null || addSection.entercarbs.getText().trim().isEmpty() || addSection.enterfiber.getText() == null || addSection.enterfiber.getText().trim().isEmpty() || addSection.enterprotein.getText() == null || addSection.enterprotein.getText().trim().isEmpty()) {
+					message= "Missing Field";
+					type = 2;
+					addErrorWindow.errorMessage(type,message);
 					throw new IllegalArgumentException();
 				}
-				if (Float.valueOf(addSection.entercalories.getText()) < 0)
-					throw new IllegalArgumentException();
-				if (Float.valueOf(addSection.enterfats.getText()) < 0)
-					throw new IllegalArgumentException();
-				if (Float.valueOf(addSection.entercarbs.getText()) < 0)
-					throw new IllegalArgumentException();
-				if (Float.valueOf(addSection.enterfiber.getText()) < 0)
-					throw new IllegalArgumentException();
-				if (Float.valueOf(addSection.enterprotein.getText()) < 0)
-					throw new IllegalArgumentException();
+				if (Float.valueOf(addSection.entercalories.getText()) < 0){
+					message= "Invalid Calories ";
+					type = 1;
+					addErrorWindow.errorMessage(type,message);
+
+				}
+				if (Float.valueOf(addSection.enterfats.getText()) < 0){
+					message= "Invalid Fats ";
+					type = 1;
+					addErrorWindow.errorMessage(type,message);
+
+				}
+				if (Float.valueOf(addSection.entercarbs.getText()) < 0){
+					message= "Invalid Carbs";
+					type = 1;
+					addErrorWindow.errorMessage(type,message);
+				}
+				if (Float.valueOf(addSection.enterfiber.getText()) < 0){
+					message= "Invalid Fiber ";
+					type = 1;
+					addErrorWindow.errorMessage(type,message);
+
+				}
+				if (Float.valueOf(addSection.enterprotein.getText()) < 0){
+					message= "Invalid Protein ";
+					type = 1;
+					addErrorWindow.errorMessage(type,message);
+				}
+
 				String secretKey = "sdfsdg2343245";
+
+				if(type!=-1){
+					throw new IllegalArgumentException();
+				}
 
 				// Create a new food item with inputs
 				FoodItem newFood = new FoodItem(secretKey,addSection.entername.getText(), Double.valueOf(addSection.entercalories.getText()),
@@ -271,10 +305,12 @@ public class Main extends Application {
 				all.addFoodItem(newFood);
 				display.set(all);
 				analyzeSection.foodList.setItems(FXCollections.observableArrayList(display.get().getNames())); // displays names from
-																								// foodList
-			} catch (IllegalArgumentException e) {	// error message for invalid inputs
-				errorWindow.errorMessage(message);
-				errorWindow.show();
+			} catch (NumberFormatException e){
+				addErrorWindow.errorMessage(1, "String Entered For Nutrient Value");
+				addErrorWindow.show();
+			}																				// foodList
+			 catch (IllegalArgumentException e) {    // error message for invalid inputs
+				addErrorWindow.show();
 			}
 		});
 
