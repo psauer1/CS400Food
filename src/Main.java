@@ -31,6 +31,7 @@ import java.util.concurrent.atomic.AtomicReference;
  */
 public class Main extends Application {
 
+	private static final String ALPHA_NUMERIC_STRING = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 	/**
 	 * Starts the GUI and sets up the stage, scenes, buttons, and other internal
 	 * features.
@@ -292,7 +293,7 @@ public class Main extends Application {
 					addErrorWindow.errorMessage(type,message);
 				}
 
-				String secretKey = "sdfsdg2343245";
+				String secretKey = randomAlphaNumeric(all);
 
 				if(type!=-1){
 					throw new IllegalArgumentException();
@@ -381,11 +382,30 @@ public class Main extends Application {
 		});
 	}
 
+	private String randomAlphaNumeric(FoodData b) {
+		StringBuilder builder = new StringBuilder();
+		int count = 30;
+		while (count-- != 0) {
+			int character = (int)(Math.random()*ALPHA_NUMERIC_STRING.length());
+			builder.append(ALPHA_NUMERIC_STRING.charAt(character));
+		}
+		String string = builder.toString();
+		for(FoodItem a : b.getAllFoodItems()){
+			if(a.getID().equals(string)){
+				string = randomAlphaNumeric(b);
+			}
+		}
+		return string;
+	}
+
 	/**
 	 * Launches the GUI
 	 * 
 	 * @param args
 	 */
+
+
+
 	public static void main(String[] args) {
 		launch(args);
 	}

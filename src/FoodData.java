@@ -15,17 +15,17 @@ public class FoodData implements FoodDataADT<FoodItem> {
 	/*fields*/
 	
     private List<FoodItem> foodItemList = new ArrayList<>();	// List of all the food items.
-    private HashMap<String, TreeMap<Double, FoodItem>> indexes = new HashMap<>();	// Map of nutrients and their corresponding index
+    private HashMap<String, TreeMap<Double, ArrayList<FoodItem>>> indexes = new HashMap<>();	// Map of nutrients and their corresponding index
 
     /**
      * Public constructor
      */
     public FoodData() {
-        indexes.put("calories", new TreeMap<Double, FoodItem>());
-        indexes.put("protein", new TreeMap<Double, FoodItem>());
-        indexes.put("carbs", new TreeMap<Double, FoodItem>());
-        indexes.put("fat", new TreeMap<Double, FoodItem>());
-        indexes.put("fiber", new TreeMap<Double, FoodItem>());
+        indexes.put("calories", new TreeMap<Double, ArrayList<FoodItem>>());
+        indexes.put("protein", new TreeMap<Double, ArrayList<FoodItem>>());
+        indexes.put("carbs", new TreeMap<Double, ArrayList<FoodItem>>());
+        indexes.put("fat", new TreeMap<Double, ArrayList<FoodItem>>());
+        indexes.put("fiber", new TreeMap<Double, ArrayList<FoodItem>>());
     }
 
     /*
@@ -177,7 +177,7 @@ public class FoodData implements FoodDataADT<FoodItem> {
 
         StringBuilder sb = new StringBuilder();
         for (FoodItem item : foodItemList) { // print to csv in valid read in format
-            sb.append(item);
+            sb.append(item.getID());
             sb.append(',');
             sb.append(item.getName() + ',');
             sb.append("calories," + item.getCal() + ',');
@@ -201,9 +201,13 @@ public class FoodData implements FoodDataADT<FoodItem> {
      * @throws IllegalArgumentException
      */
     private FoodData getFoodRange(String key, Double low, Double high) throws IllegalArgumentException {
-        Collection<FoodItem> searchList = indexes.get(key).subMap(low, high).values();
+        Collection<ArrayList<FoodItem>> searchList = indexes.get(key).subMap(low, high).values();
+        ArrayList<FoodItem> allItems = new ArrayList<>();
+        for(ArrayList<FoodItem> e : searchList){
+            allItems.addAll(e);
+        }
         FoodData subTree = new FoodData();
-        subTree.insertAllFood(searchList.toArray(new FoodItem[searchList.size()]));
+        subTree.insertAllFood(allItems.toArray(new FoodItem[allItems.size()]));
         return subTree;
     }
 
@@ -214,12 +218,29 @@ public class FoodData implements FoodDataADT<FoodItem> {
      * @param item
      */
     private void putVals(FoodItem item) {
+
+        ArrayList<FoodItem> newCal = indexes.get("calories").get(item.getCal());
+        if(newCal == null) newCal = new ArrayList<>();
+        newCal.add(item);
+        ArrayList<FoodItem> newProt = indexes.get("protein").get(item.getProtein());
+        if(newProt == null) newProt = new ArrayList<>();
+        newProt.add(item);
+        ArrayList<FoodItem> newCarbs = indexes.get("carbs").get(item.getCarb());
+        if(newCarbs == null) newCarbs = new ArrayList<>();
+        newCarbs.add(item);
+        ArrayList<FoodItem> newFat = indexes.get("fat").get(item.getFat());
+        if(newFat == null) newFat = new ArrayList<>();
+        newFat.add(item);
+        ArrayList<FoodItem> newFib = indexes.get("fiber").get(item.getFiber());
+        if(newFib == null) newFib = new ArrayList<>();
+        newFib.add(item);
+
         foodItemList.add(item);
-        indexes.get("calories").put(item.getCal(), item);
-        indexes.get("protein").put(item.getProtein(), item);
-        indexes.get("carbs").put(item.getCarb(), item);
-        indexes.get("fat").put(item.getFat(), item);
-        indexes.get("fiber").put(item.getFiber(), item);
+        indexes.get("calories").put(item.getCal(),newCal);
+        indexes.get("protein").put(item.getProtein(), newProt);
+        indexes.get("carbs").put(item.getCarb(), newCarbs);
+        indexes.get("fat").put(item.getFat(), newFat);
+        indexes.get("fiber").put(item.getFiber(), newFib);
     }
 
     /**

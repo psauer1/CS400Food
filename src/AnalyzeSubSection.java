@@ -18,6 +18,7 @@ public class AnalyzeSubSection {
     public ListView<String> mealList;
     public VBox analyze;
 
+
     public AnalyzeSubSection(HBox root){
         /*
          * Meal analysis vertical section
@@ -91,5 +92,6 @@ public class AnalyzeSubSection {
         analyze.getChildren().add(analyzeMeal); // adds the analyze button HBox to the main analyze HBox
 
     }
+
 
 }
