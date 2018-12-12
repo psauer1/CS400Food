@@ -17,7 +17,7 @@ public class AnalyzeSubSection {
     public ListView<String> foodList;
     public ListView<String> mealList;
     public VBox analyze;
-
+    public Button infoButton;
 
     public AnalyzeSubSection(HBox root){
         /*
@@ -86,10 +86,18 @@ public class AnalyzeSubSection {
         subAnalyze.getChildren().add(buttons); // adds buttons VBox to the sub-analyze HBox
         subAnalyze.getChildren().add(mealItems); // adds meal VBox to the sub-analyze HBox
 
+        HBox lowerButtons = new HBox();
+        VBox analyzer = new VBox();
         analyzeMeal = new Button("Analyze Meal"); // creates button to analyze the meal
-        analyzeMeal.prefWidthProperty().bind(analyze.widthProperty().multiply(1.0));
+        analyzeMeal.prefWidthProperty().bind(analyze.widthProperty().multiply(.70));
+        infoButton = new Button("Instructions"); // creates button to analyze the meal
+        infoButton.prefWidthProperty().bind(analyze.widthProperty().multiply(.30));
         analyze.getChildren().add(subAnalyze); // adds the sub-analyze HBox to the main analyze HBox
-        analyze.getChildren().add(analyzeMeal); // adds the analyze button HBox to the main analyze HBox
+        analyzer.getChildren().add(analyzeMeal); // adds the analyze button HBox to the main analyze HBox
+        analyzer.setPadding(new Insets(0, 10, 0, 0));
+        lowerButtons.getChildren().add(analyzer); // adds the analyze button HBox to the main analyze HBox
+        lowerButtons.getChildren().add(infoButton); // adds the analyze button HBox to the main analyze HBox
+        analyze.getChildren().add(lowerButtons);
 
     }
 

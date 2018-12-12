@@ -78,7 +78,7 @@ public class FoodData implements FoodDataADT<FoodItem> {
     public List<FoodItem> filterByName(String substring) {
         ArrayList<FoodItem> finalNames = new ArrayList<>();
         for(FoodItem item : foodItemList){
-            if(item.getName().contains(substring)) finalNames.add(item);
+            if(item.getName().toLowerCase().contains(substring.toLowerCase())) finalNames.add(item);
         }
         return finalNames;
     }

@@ -372,6 +372,11 @@ public class Main extends Application {
 			all.saveFoodItems(path.getAbsolutePath());	// save items with given file path
 		});
 
+		analyzeSection.infoButton.setOnMouseClicked((event) ->{
+			InfoWindow info = new InfoWindow();
+			info.show();
+		});
+
 		/*
 		 * Event handler for analyze button
 		 * 
