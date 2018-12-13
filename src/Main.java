@@ -1,5 +1,23 @@
+/**
+ * Filename:   Main.java
+ * Project:    p5 - Meal Analysis
+ * Authors:    Peter Sauer, Riley Ley, Taylor Chappell, Andy Boho, Nathan Husemoller
+ *
+ * Semester:   Fall 2018
+ * Course:     CS400
+ * Lecture:    002 & 003
+ * 
+ * 
+ * Due Date:   Before 10pm on December 12, 2018
+ * Version:    1.0
+ * 
+ * Credits:    
+ *
+ * Bugs:       
+ */
 
-import com.sun.javaws.exceptions.InvalidArgumentException;
+package application;
+
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -32,6 +50,7 @@ import java.util.concurrent.atomic.AtomicReference;
 public class Main extends Application {
 
 	private static final String ALPHA_NUMERIC_STRING = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+	
 	/**
 	 * Starts the GUI and sets up the stage, scenes, buttons, and other internal
 	 * features.
@@ -61,7 +80,7 @@ public class Main extends Application {
 		root.setPadding(new Insets(15, 20, 10, 10));
 		root.prefHeightProperty().bind(primaryStage.heightProperty().multiply(0.9)); // sets the height parameters of
 
-		VBox options3 = new VBox();																				// the HBox
+		VBox options3 = new VBox(); // creates VBox for adding to the program
 		HBox options = new HBox(); // creates VBox for the sorting of the program
 		options.prefWidthProperty().bind(options3.widthProperty().multiply(1));
 		HBox options2 = new HBox(); // creates VBox for the sorting of the program
@@ -70,9 +89,9 @@ public class Main extends Application {
 		options3.getChildren().add(options);
 		options3.getChildren().add(options2);
 
-		AnalyzeSubSection analyzeSection = new AnalyzeSubSection(root);
-		SortSubSection sortSection = new SortSubSection(root);
-		AddSubSection addSection = new AddSubSection(root);
+		AnalyzeSubSection analyzeSection = new AnalyzeSubSection(root);	// Analyzing food portion of the GUI handled in driver class
+		SortSubSection sortSection = new SortSubSection(root);	// Sorting food portion of the GUI handled in driver class
+		AddSubSection addSection = new AddSubSection(root);	// Adding food portion of the GUI handled in driver class
 
 		TitledPane sortPane = new TitledPane("Sort Food Items",sortSection.sort);	// creates drop down pane for sorting food
 		TitledPane addPane = new TitledPane("Add Food Items",addSection.add);	// creates drop down pane for adding food
@@ -95,7 +114,7 @@ public class Main extends Application {
 		primaryStage.setScene(scene); // set the scene on the primary stage
 		primaryStage.show(); // show primary stage
 
-		ErrorWindow errorWindow = new ErrorWindow();
+		ErrorWindow errorWindow = new ErrorWindow();	// error window that is displayed for users when they input invalid arguments
 		
 		/*
 		 * Event handlers
@@ -106,13 +125,12 @@ public class Main extends Application {
 		/*
 		 * Sort button event handler
 		 * 
-		 * Applies the criteria specified for each field, displays the error message if the user inputted invalid arguments
+		 * Applies the criteria specified for each field, displays the error message if the user inputed invalid arguments
 		 */
 		sortSection.sortFood.setOnMouseClicked((event) -> {
-			// TODO: Add error response messages, error handlers to avoid crashes
-			FoodData subList = all;
+			FoodData subList = all;	// sublist built throughout the sorting event
 			ArrayList<String> searchList = new ArrayList<String>();
-			ErrorWindow sortErrorWindow = new ErrorWindow();
+			ErrorWindow sortErrorWindow = new ErrorWindow();	// creates a sort error window
 
 			if (sortSection.nameBox.isSelected()) { // if name box is checked
 				try {
@@ -387,15 +405,21 @@ public class Main extends Application {
 		});
 	}
 
+	/**
+	 * Generates a string that is used for user inputed foods to allow for duplicates item names
+	 * 
+	 * @param FoodData
+	 * @return String
+	 */
 	private String randomAlphaNumeric(FoodData b) {
-		StringBuilder builder = new StringBuilder();
-		int count = 30;
+		StringBuilder builder = new StringBuilder();	// food id builder
+		int count = 30;	// length of key
 		while (count-- != 0) {
-			int character = (int)(Math.random()*ALPHA_NUMERIC_STRING.length());
-			builder.append(ALPHA_NUMERIC_STRING.charAt(character));
+			int character = (int)(Math.random()*ALPHA_NUMERIC_STRING.length());	// generate random char
+			builder.append(ALPHA_NUMERIC_STRING.charAt(character));	// add random char to string
 		}
-		String string = builder.toString();
-		for(FoodItem a : b.getAllFoodItems()){
+		String string = builder.toString();	// food id
+		for(FoodItem a : b.getAllFoodItems()){	// looks for duplicates keys within data structure
 			if(a.getID().equals(string)){
 				string = randomAlphaNumeric(b);
 			}
@@ -408,9 +432,6 @@ public class Main extends Application {
 	 * 
 	 * @param args
 	 */
-
-
-
 	public static void main(String[] args) {
 		launch(args);
 	}
