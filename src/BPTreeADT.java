@@ -1,3 +1,23 @@
+/**
+ * Filename:   BPTreeADT.java
+ * Project:    p5 - Meal Analysis
+ * Authors:    Peter Sauer, Riley Ley, Taylor Chappell, Andy Boho, Nathan Husemoller
+ *
+ * Semester:   Fall 2018
+ * Course:     CS400
+ * Lecture:    002 & 003
+ * 
+ * 
+ * Due Date:   Before 10pm on December 12, 2018
+ * Version:    1.0
+ * 
+ * Credits:    sapan (sapan@cs.wisc.edu)
+ *
+ * Bugs:       
+ */
+
+package application;
+
 import java.util.List;
 
 /**
